@@ -181,7 +181,7 @@
            MODIFICACIÓN DE ANCHO: PANEL LATERAL DERECHO (RE-AJUSTADO A 520PX REALES)
            ========================================================================== */
         .side-panel-wrapper {
-            width: 520px; /* Aquí le damos los 520px de espacio interactivo que necesitas */
+            width: 520px; 
             min-width: 480px;
             display: flex;
             flex-direction: column;
@@ -349,11 +349,44 @@
         .leccion-meta { font-weight: bold; color: var(--primary); margin-bottom: 0.2rem; font-style: normal; }
         .leccion-ejercicio { background-color: #f0fdf4; border: 1px dashed var(--accent); padding: 1rem; border-radius: 6px; margin-top: 1rem; }
 
-        /* RESPONSIVE */
+        /* ==========================================================================
+           5. RE-DISEÑO RESPONSIVE ADAPTATIVO (NUEVA MODIFICACIÓN PARA MÓVILES)
+           ========================================================================== */
         @media (max-width: 1024px) { 
-            .seccion-app { flex-direction: column; } 
-            .side-panel-wrapper { width: 100%; min-width: 100%; }
-            .bible-column { padding: 1rem; }
+            body {
+                overflow-y: auto;
+                height: auto;
+            }
+
+            .seccion-app { 
+                flex-direction: column; 
+                overflow: visible; 
+            } 
+
+            .bible-column { 
+                padding: 1.2rem; 
+                border-right: none;
+                overflow-y: visible; 
+                border-bottom: 2px solid var(--border);
+            }
+
+            .side-panel-wrapper { 
+                width: 100%; 
+                min-width: 100%; 
+                border-left: none;
+                overflow-y: visible;
+            }
+
+            .study-column, .resources-column {
+                overflow-y: visible; 
+            }
+
+            .panel-header-tabs {
+                position: sticky;
+                top: 0;
+                z-index: 30;
+                background-color: #edf2f7;
+            }
         }
     </style>
 </head>
@@ -489,11 +522,9 @@
         window.onload = function() {
             const contenedorLecciones = document.getElementById('contenedor-lecciones');
             
-            // Verificamos que el contenedor exista y que la constante de capacitacion.js esté cargada
             if(contenedorLecciones && typeof leccionesTeologicas !== 'undefined') {
                 let htmlLecciones = "";
                 
-                // Usamos leccionesTeologicas (la variable que vive en capacitacion.js)
                 leccionesTeologicas.forEach(lec => {
                     htmlLecciones += `
                         <div class="card-leccion">
@@ -516,6 +547,7 @@
                 console.error("No se pudo cargar leccionesTeologicas. Revisa que capacitacion.js esté bien enlazado.");
             }
         };
+
         function navegarA(destino) {
             document.getElementById('btn-mesa').classList.remove('active');
             document.getElementById('btn-academia').classList.remove('active');
@@ -649,6 +681,6 @@
             alert("Notas guardadas localmente.");
         }
     </script>
-             <script src="capacitacion.js"></script>
+    <script src="capacitacion.js"></script>
 </body>
 </html>
