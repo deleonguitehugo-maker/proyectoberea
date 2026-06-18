@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Berea - Estudio Inductivo Abierto</title>
+    <style>
+        /* ==========================================================================
+           1. VARIABLES Y ESTILOS BASE (DISEÑO LIMPIO Y ACCESIBLE)
+           ========================================================================== */
+        :root {
+            --primary: #2c3e50;
+            --accent: #16a085;
+            --bg: #f8f9fa;
+            --text: #2c3e50;
+            --panel-bg: #ffffff;
+            --border: #e2e8f0;
+            --text-muted: #718096;
+            --tab-inactive-bg: #e2e8f0;
+            --tab-active-bg: #ffffff;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+        }
+
+        body { 
+            background-color: var(--bg); 
+            color: var(--text); 
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; 
+            overflow: hidden;
+        }
+
+        /* ==========================================================================
+           2. BARRA DE NAVEGACIÓN SUPERIOR
+           ========================================================================== */
+        nav {
+            background-color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1.5rem;
+            height: 65px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .nav-logo { 
+            color: white; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.6rem; 
+        }
+
+        .nav-logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .nav-logo-text .title {
+            font-size: 1.15rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-logo-text .subtitle {
+            font-size: 0.7rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .nav-menu { 
+            display: flex; 
+            gap: 0.5rem; 
+        }
+
+        .nav-link {
+            color: #cbd5e0;
+            background: none;
+            border: none;
+            padding: 0.6rem 1rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .nav-link.active, .nav-link:hover { 
+            color: white; 
+            background-color: rgba(255,255,255,0.1); 
+        }
+
+        /* ==========================================================================
+           3. ESTRUCTURA DE CONTENEDORES Y SECCIONES
+           ========================================================================== */
+        .seccion-app { 
+            display: flex; 
+            flex: 1; 
+            overflow: hidden; 
+        }
+
+        .oculto { 
+            display: none !important; 
+        }
+
+        /* COLUMNA BIBLIA: Cede espacio de forma fluida */
+        .bible-column { 
+            flex: 1; 
+            padding: 2rem; 
+            overflow-y: auto; 
+            border-right: 1px solid var(--border); 
+            background-color: var(--panel-bg); 
+        }
+
+        .selector-box {
+            background-color: #f7fafc;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .selector-box label {
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        .selector-box select {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #cbd5e0;
+            font-size: 0.95rem;
+            background-color: white;
+            color: var(--text);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .intro-box {
+            background-color: #edf2f7;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            border-left: 4px solid var(--primary);
+        }
+
+        .verse { 
+            margin-bottom: 0.8rem; 
+            line-height: 1.6; 
+            font-size: 1.1rem; 
+            cursor: pointer; 
+            padding: 0.4rem; 
+            border-radius: 4px; 
+            transition: background 0.2s;
+        }
+
+        .verse:hover { 
+            background-color: #f0fdf4; 
+        }
+
+        .v-num { 
+            font-weight: bold; 
+            color: var(--accent); 
+            margin-right: 0.6rem; 
+        }
+
+        /* ==========================================================================
+           MODIFICACIÓN DE ANCHO: PANEL LATERAL DERECHO (RE-AJUSTADO A 520PX REALES)
+           ========================================================================== */
+        .side-panel-wrapper {
+            width: 520px; /* Aquí le damos los 520px de espacio interactivo que necesitas */
+            min-width: 480px;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--tab-active-bg);
+            border-left: 1px solid var(--border);
+        }
+
+        /* PESTAÑAS ORIGINALES TIPO ARCHIVADOR DE DOS CARPETAS */
+        .panel-header-tabs {
+            background-color: #edf2f7;
+            padding: 0.8rem 0.8rem 0 0.8rem;
+            display: flex;
+            align-items: flex-end;
+            border-bottom: 1px solid var(--border);
+            height: 42px;
+            gap: 4px;
+        }
+
+        .tab-item {
+            color: var(--text-muted);
+            font-weight: bold;
+            font-size: 0.8rem;
+            padding: 0.4rem 1rem;
+            border-radius: 5px 5px 0 0;
+            border: 1px solid var(--border);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
+            margin-bottom: -1px;
+            transition: all 0.15s ease;
+        }
+
+        .tab-item.active {
+            background-color: var(--tab-active-bg);
+            color: var(--primary);
+            border-bottom: 1px solid var(--tab-active-bg);
+            box-shadow: 0 -2px 4px rgba(0,0,0,0.03);
+            border-top: 2px solid var(--accent);
+        }
+
+        .tab-item.inactive {
+            background-color: #e2e8f0;
+            color: #8a99ad;
+            border-bottom: 1px solid var(--border);
+        }
+        .tab-item.inactive:hover {
+            background-color: #cbd5e0;
+            color: var(--primary);
+        }
+
+        /* CONTENIDOS INTERNOS DE LAS CARPETAS */
+        .study-column { 
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            background-color: var(--tab-active-bg);
+        }
+
+        .bloque-inductivo {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .resources-column {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            background-color: var(--tab-active-bg);
+        }
+
+        h3 { color: var(--primary); margin-bottom: 0.5rem; font-size: 1.1rem; border-bottom: 2px solid #edf2f7; padding-bottom: 0.3rem; }
+        .instruccion { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.4; }
+        label { display: block; margin: 0.8rem 0 0.4rem 0; font-weight: 600; font-size: 0.9rem; color: #4a5568; }
+         
+        textarea { 
+            width: 100%; 
+            height: 110px; 
+            padding: 0.6rem; 
+            border: 1px solid var(--border); 
+            resize: none; 
+            border-radius: 4px; 
+            font-size: 0.95rem;
+            outline: none;
+        }
+        textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(22, 160, 133, 0.1); }
+
+        .btn-save { 
+            margin-top: 0.5rem; 
+            background-color: var(--accent); 
+            color: white; 
+            border: none; 
+            padding: 0.8rem; 
+            width: 100%; 
+            font-weight: bold; 
+            cursor: pointer; 
+            border-radius: 4px; 
+            font-size: 0.95rem;
+            transition: background 0.2s;
+        }
+        .btn-save:hover { background-color: #12826c; }
+
+        .dict-box { 
+            background-color: #f7fafc; 
+            border-left: 4px solid var(--accent); 
+            padding: 1rem; 
+            margin-top: 0.5rem; 
+            border-radius: 0 4px 4px 0; 
+            border: 1px solid var(--border);
+        }
+
+        /* ==========================================================================
+           4. VISTAS SECUNDARIAS: ACADEMIA Y NOSOTROS
+           ========================================================================== */
+        .container-lectura { 
+            flex: 1; 
+            padding: 2.5rem 1.5rem; 
+            overflow-y: auto; 
+            max-width: 850px; 
+            margin: 0 auto; 
+            width: 100%;
+        }
+
+        .seccion-header { 
+            margin-bottom: 2rem; 
+            border-bottom: 2px solid var(--border); 
+            padding-bottom: 1rem; 
+        }
+
+        .seccion-subtitle { 
+            color: var(--text-muted); 
+            margin-top: 0.5rem; 
+            font-size: 1.05rem;
+        }
+
+        .card-leccion { 
+            background: white; 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            padding: 1.5rem; 
+            margin-bottom: 1.5rem; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02); 
+        }
+
+        .tag-disciplina { 
+            display: inline-block; 
+            background-color: #e2e8f0; 
+            color: #4a5568; 
+            font-size: 0.75rem; 
+            font-weight: bold; 
+            padding: 0.25rem 0.6rem; 
+            border-radius: 50px; 
+            text-transform: uppercase; 
+            margin-bottom: 0.6rem; 
+        }
+
+        .leccion-titulo { color: var(--primary); margin-bottom: 0.8rem; font-size: 1.25rem; }
+        .leccion-bloque { margin: 1rem 0; padding-left: 1rem; border-left: 3px solid #cbd5e0; font-style: italic; color: #4a5568; }
+        .leccion-meta { font-weight: bold; color: var(--primary); margin-bottom: 0.2rem; font-style: normal; }
+        .leccion-ejercicio { background-color: #f0fdf4; border: 1px dashed var(--accent); padding: 1rem; border-radius: 6px; margin-top: 1rem; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) { 
+            .seccion-app { flex-direction: column; } 
+            .side-panel-wrapper { width: 100%; min-width: 100%; }
+            .bible-column { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo">
+            <span>📜</span> 
+            <div class="nav-logo-text">
+                <span class="title">PROYECTO BEREA</span>
+                <span class="subtitle">Estudio Inductivo Abierto</span>
+            </div>
+        </div>
+        <div class="nav-menu">
+            <button class="nav-link active" id="btn-mesa" onclick="navegarA('mesa')">📖 Mesa de Estudio</button>
+            <button class="nav-link" id="btn-academia" onclick="navegarA('academia')">🎓 Academia Pastoral</button>
+            <button class="nav-link" id="btn-nosotros" onclick="navegarA('nosotros')">❤️ Sobre el Proyecto</button>
+        </div>
+    </nav>
+
+    <div class="seccion-app" id="vista-mesa">
+        
+        <div class="bible-column">
+            <div class="selector-box">
+                <label for="selector-libro">Libro:</label>
+                <select id="selector-libro" onchange="cargarLibroDinamico(this.value)">
+                    <option value="" disabled selected>-- Elige un Libro --</option>
+                    <option value="luc">Lucas</option>
+                    <option value="efe">Efesios</option>
+                    <option value="1tim">1 Timoteo</option>
+                    <option value="2tim">2 Timoteo</option>
+                    <option value="ti">Tito</option>
+                    <option value="jac">Santiago</option>
+                    <option value="1jn">1 Carta de Juan</option>
+                    <option value="2jn">2 Carta de Juan</option>
+                    <option value="3jn">3 Carta de Juan</option>
+                    <option value="jud">Epístola de Judas</option>
+                </select>
+
+                <label for="selector-capitulo" id="label-capitulo" class="oculto">Capítulo:</label>
+                <select id="selector-capitulo" class="oculto" onchange="filtrarCapituloEnPantalla(this.value)">
+                </select>
+            </div>
+            
+            <div id="contenedor-biblia">
+                <p style="text-align: center; color: var(--text-muted); margin-top: 3rem; font-style: italic;">
+                    Por favor, selecciona un libro bíblico en el menú desplegable superior para comenzar tu estudio.
+                </p>
+            </div>
+        </div>
+
+        <div class="side-panel-wrapper">
+            
+            <div class="panel-header-tabs">
+                <span class="tab-item active" id="tab-estudio" onclick="cambiarPestañaLateral('estudio')">Estudio Inductivo</span>
+                <span class="tab-item inactive" id="tab-recursos" onclick="cambiarPestañaLateral('recursos')">Recursos y Herramientas</span>
+            </div>
+
+            <div class="study-column" id="contenido-tab-estudio">
+                <div class="bloque-inductivo">
+                    <h3>1. Observación Básica</h3>
+                    <p class="instruccion">¿Qué dice el texto? Anota palabras clave, contrastes y verbos principales.</p>
+                    <textarea id="note-obs" placeholder="Escribe aquí los patrones y detalles importantes..."></textarea>
+                </div>
+
+                <div class="bloque-inductivo">
+                    <h3>2. Interpretación</h3>
+                    <p class="instruccion">¿Qué significa el texto en su contexto original e histórico?</p>
+                    <textarea id="note-int" placeholder="¿Qué entendiste del mensaje original del autor?"></textarea>
+                </div>
+
+                <div class="bloque-inductivo">
+                    <h3>3. Aplicación Personal</h3>
+                    <p class="instruccion">¿Cómo responde mi vida ante esta verdad?</p>
+                    
+                    <label>¿Qué me enseña acerca de Dios?</label>
+                    <textarea id="note-apl-1" placeholder="Tu respuesta enfocada en conocer a Dios..."></textarea>
+
+                    <label>¿Hay alguna acción concreta que tomar?</label>
+                    <textarea id="note-apl-2" placeholder="Tu respuesta práctica para tu vida diaria..."></textarea>
+                </div>
+
+                <button class="btn-save" onclick="guardarEstudio()">Guardar Notas de Este Libro</button>
+            </div>
+
+            <div class="resources-column oculto" id="contenido-tab-recursos">
+                <p class="instruccion">Haz clic sobre un versículo a la izquierda para activar comentarios exegéticos y diccionarios Strong.</p>
+                
+                <div id="interpretation-tool">
+                    <p style="color: var(--text-muted); font-style: italic; text-align: center; padding: 4rem 0;">Ningún versículo seleccionado actualmente.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="seccion-app oculto" id="vista-academia">
+        <div class="container-lectura">
+            <div class="seccion-header">
+                <h2>Capacitación Pastoral Básica</h2>
+                <p class="seccion-subtitle">Herramientas esenciales de exégesis, hermenéutica y homilética para líderes del pueblo.</p>
+            </div>
+            <div id="contenedor-lecciones"></div>
+        </div>
+    </div>
+
+    <div class="seccion-app oculto" id="vista-nosotros">
+        <div class="container-lectura" style="max-width: 700px;">
+            <div class="seccion-header" style="text-align: center;">
+                <h2>El Corazón de Proyecto Berea</h2>
+                <p class="seccion-subtitle">"Escudriñando diariamente las Escrituras" — Hechos 17:11</p>
+            </div>
+            
+            <div class="card-leccion" style="border-left: 4px solid var(--accent);">
+                <h3 style="margin-bottom: 0.5rem;">🎯 Nuestra Misión</h3>
+                <p style="line-height: 1.6; font-size: 1.05rem; color: #4a5568;">
+                    Equipar y dignificar el ministerio de los pastores y líderes locales en toda América Latina que no tienen acceso a una educación teológica formal o a costosos programas de estudio, proveyendo herramientas de análisis bíblico inductivo de alta calidad, 100% gratuitas, libres de publicidad y accesibles desde cualquier dispositivo.
+                </p>
+            </div>
+
+            <div class="card-leccion" style="border-left: 4px solid var(--primary);">
+                <h3 style="margin-bottom: 0.5rem;">👁️ Nuestra Visión</h3>
+                <p style="line-height: 1.6; font-size: 1.05rem; color: #4a5568;">
+                    Ver una iglesia hispanohablante profundamente arraigada en las Escrituras, donde la falta de recursos económicos nunca vuelva a ser una barrera para estudiar, interpretar con precisión exegética y proclamar fielmente la Palabra de Dios.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ACADEMIA BASE */
+        window.onload = function() {
+            const contenedorLecciones = document.getElementById('contenedor-lecciones');
+            
+            // Verificamos que el contenedor exista y que la constante de capacitacion.js esté cargada
+            if(contenedorLecciones && typeof leccionesTeologicas !== 'undefined') {
+                let htmlLecciones = "";
+                
+                // Usamos leccionesTeologicas (la variable que vive en capacitacion.js)
+                leccionesTeologicas.forEach(lec => {
+                    htmlLecciones += `
+                        <div class="card-leccion">
+                            <span class="tag-disciplina">${lec.disciplina}</span>
+                            <h3 class="leccion-titulo">${lec.titulo}</h3>
+                            <p><strong>Concepto Central:</strong> ${lec.concepto}</p>
+                            <div class="leccion-bloque">
+                                <p class="leccion-meta">Ejemplo:</p>
+                                <p>${lec.ejemplo}</p>
+                            </div>
+                            <div class="leccion-ejercicio">
+                                <p class="leccion-meta">Ejercicio práctico:</p>
+                                <p>${lec.ejercicio}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                contenedorLecciones.innerHTML = htmlLecciones;
+            } else {
+                console.error("No se pudo cargar leccionesTeologicas. Revisa que capacitacion.js esté bien enlazado.");
+            }
+        };
+        function navegarA(destino) {
+            document.getElementById('btn-mesa').classList.remove('active');
+            document.getElementById('btn-academia').classList.remove('active');
+            document.getElementById('btn-nosotros').classList.remove('active');
+            document.getElementById('vista-mesa').classList.add('oculto');
+            document.getElementById('vista-academia').classList.add('oculto');
+            document.getElementById('vista-nosotros').classList.add('oculto');
+
+            if(destino === 'mesa') {
+                document.getElementById('btn-mesa').classList.add('active');
+                document.getElementById('vista-mesa').classList.remove('oculto');
+            } else if(destino === 'academia') {
+                document.getElementById('btn-academia').classList.add('active');
+                document.getElementById('vista-academia').classList.remove('oculto');
+            } else if(destino === 'nosotros') {
+                document.getElementById('btn-nosotros').classList.add('active');
+                document.getElementById('vista-nosotros').classList.remove('oculto');
+            }
+        }
+
+        /* FUNCIÓN CONTROLADORA DE LAS DOS CARPETAS LATERALES */
+        function cambiarPestañaLateral(pestañaSeleccionada) {
+            const tabEstudio = document.getElementById('tab-estudio');
+            const tabRecursos = document.getElementById('tab-recursos');
+            const contenedorEstudio = document.getElementById('contenido-tab-estudio');
+            const contenedorRecursos = document.getElementById('contenido-tab-recursos');
+
+            if (pestañaSeleccionada === 'estudio') {
+                tabEstudio.className = "tab-item active";
+                tabRecursos.className = "tab-item inactive";
+                contenedorEstudio.classList.remove('oculto');
+                contenedorRecursos.classList.add('oculto');
+            } else if (pestañaSeleccionada === 'recursos') {
+                tabEstudio.className = "tab-item inactive";
+                tabRecursos.className = "tab-item active";
+                contenedorEstudio.classList.add('oculto');
+                contenedorRecursos.classList.remove('oculto');
+            }
+        }
+
+        /* CARGA DINÁMICA DE LIBROS CORRECTA */
+        function cargarLibroDinamico(codigoLibro) {
+            const scriptViejo = document.getElementById('script-libro-activo');
+            if (scriptViejo) scriptViejo.remove();
+
+            const nuevoScript = document.createElement('script');
+            nuevoScript.id = 'script-libro-activo';
+            nuevoScript.src = `libros/${codigoLibro}.js`;
+
+            nuevoScript.onload = function() {
+                if (typeof DatosLibroActual !== 'undefined') {
+                    renderizarLibroEnPantalla();
+                } else {
+                    alert("Error: Formato de archivo de libro incorrecto.");
+                }
+            };
+            document.body.appendChild(nuevoScript);
+        }
+
+        function renderizarLibroEnPantalla() {
+            document.getElementById('label-capitulo').classList.remove('oculto');
+            const selectorCapitulo = document.getElementById('selector-capitulo');
+            selectorCapitulo.classList.remove('oculto');
+
+            selectorCapitulo.innerHTML = "";
+            DatosLibroActual.capitulos.forEach(cap => {
+                const opcion = document.createElement('option');
+                opcion.value = cap.capitulo;
+                opcion.innerText = `Cap. ${cap.capitulo}`;
+                selectorCapitulo.appendChild(opcion);
+            });
+
+            const primerCapitulo = DatosLibroActual.capitulos[0].capitulo;
+            selectorCapitulo.value = primerCapitulo;
+            filtrarCapituloEnPantalla(primerCapitulo);
+
+            cambiarPestañaLateral('estudio');
+        }
+
+        function filtrarCapituloEnPantalla(numCapitulo) {
+            numCapitulo = parseInt(numCapitulo);
+            const contenedor = document.getElementById('contenedor-biblia');
+            
+            let htmlBiblia = `
+                <h2>${DatosLibroActual.titulo}</h2>
+                <div class="intro-box"><strong>Introducción:</strong> ${DatosLibroActual.introduccion}</div>
+            `;
+
+            const capObj = DatosLibroActual.capitulos.find(c => c.capitulo === numCapitulo);
+            if (capObj) {
+                capObj.versiculos.forEach(v => {
+                    htmlBiblia += `
+                        <div class="verse" onclick="mostrarRecursosVersiculo(${capObj.capitulo}, ${v.num})">
+                            <span class="v-num">${v.num}</span>${v.texto}
+                        </div>
+                    `;
+                });
+            }
+            contenedor.innerHTML = htmlBiblia;
+        }
+
+        function mostrarRecursosVersiculo(numCapitulo, numVersiculo) {
+            const capituloObj = DatosLibroActual.capitulos.find(c => c.capitulo === numCapitulo);
+            const vEncontrado = capituloObj.versiculos.find(v => v.num === numVersiculo);
+            
+            cambiarPestañaLateral('recursos');
+
+            const toolBox = document.getElementById('interpretation-tool');
+            let htmlResultado = `
+                <div class="dict-box">
+                    <p style="font-weight:bold; color:var(--accent); font-size:0.85rem;">Recursos para ${DatosLibroActual.titulo} ${numCapitulo}:${vEncontrado.num}:</p>
+                    <p style="font-size:0.9rem; color:#4a5568; margin-bottom:10px; font-style:italic;">"${vEncontrado.texto}"</p>
+                    <p style="font-size:0.9rem;">${vEncontrado.comentario}</p>
+                </div>
+            `;
+
+            if (vEncontrado.recursos_vocabulario) {
+                vEncontrado.recursos_vocabulario.forEach(item => {
+                    htmlResultado += `
+                        <div class="dict-box" style="background-color:#ffffff; margin-top:0.5rem;">
+                            <p><strong>${item.palabra}</strong> (${item.strong})</p>
+                            <p style="font-size:0.85rem; color:#4a5568;">${item.definicion}</p>
+                        </div>
+                    `;
+                });
+            }
+            toolBox.innerHTML = htmlResultado;
+        }
+
+        function guardarEstudio() {
+            alert("Notas guardadas localmente.");
+        }
+    </script>
+             <script src="capacitacion.js"></script>
+</body>
+</html>
