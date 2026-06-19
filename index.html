@@ -252,10 +252,9 @@
            ========================================================================== */
         @media (max-width: 1024px) { 
             .seccion-app { 
-                flex-direction: column; /* Apila la barra de pestañas y el contenido activo */
+                flex-direction: column; 
             } 
 
-            /* Forzamos a que la barra de pestañas se mueva arriba en el móvil */
             .panel-header-tabs {
                 width: 100%;
                 height: 50px;
@@ -266,7 +265,6 @@
                 gap: 4px;
             }
 
-            /* Hacemos visible el botón de la Biblia en celular */
             #tab-biblia {
                 display: block;
             }
@@ -281,7 +279,6 @@
                 white-space: nowrap;
             }
 
-            /* El envoltorio de paneles se desarma en móvil para que fluya de manera nativa */
             .side-panel-wrapper {
                 width: 100%;
                 min-width: 100%;
@@ -290,7 +287,6 @@
                 flex-direction: column;
             }
 
-            /* Todas las pantallas ocupan exactamente el mismo espacio dinámico */
             .bible-column, .study-column, .resources-column {
                 flex: 1;
                 width: 100%;
@@ -559,6 +555,8 @@
             nuevoScript.onload = function() {
                 if (typeof DatosLibroActual !== 'undefined') {
                     renderizarLibroEnPantalla();
+                    // RECUPERACIÓN: Busca y monta las notas guardadas de este libro específico
+                    cargarNotasGuardadas(codigoLibro);
                 }
             };
             document.body.appendChild(nuevoScript);
@@ -633,8 +631,50 @@
             toolBox.innerHTML = htmlResultado;
         }
 
+        /* LÓGICA DE PERSISTENCIA: GUARDAR NOTAS EN LOCALSTORAGE */
         function guardarEstudio() {
-            alert("Notas guardadas localmente.");
+            const libroActivo = document.getElementById('selector-libro').value;
+            
+            if (!libroActivo) {
+                alert("Por favor selecciona un libro antes de guardar tus notas.");
+                return;
+            }
+
+            const notas = {
+                observacion: document.getElementById('note-obs').value,
+                interpretacion: document.getElementById('note-int').value,
+                aplicacionDios: document.getElementById('note-apl-1').value,
+                aplicacionVida: document.getElementById('note-apl-2').value
+            };
+
+            localStorage.setItem(`berea_notas_${libroActivo}`, JSON.stringify(notas));
+            alert(`Notas de ${DatosLibroActual.titulo} guardadas localmente de forma segura.`);
+        }
+
+        /* LÓGICA DE PERSISTENCIA: LEER Y CARGAR NOTAS DE LOCALSTORAGE */
+        function cargarNotasGuardadas(codigoLibro) {
+            // Limpieza preventiva de todos los campos de texto
+            document.getElementById('note-obs').value = "";
+            document.getElementById('note-int').value = "";
+            document.getElementById('note-apl-1').value = "";
+            document.getElementById('note-apl-2').value = "";
+
+            // Cargar datos si existen para el libro activo
+            const datosGuardados = localStorage.getItem(`berea_notas_${codigoLibro}`);
+
+            if (datosGuardados) {
+                try {
+                    const notas = JSON.parse(datosGuardados);
+                    
+                    if(notas.observacion) document.getElementById('note-obs').value = notas.observacion;
+                    if(notas.interpretacion) document.getElementById('note-int').value = notas.interpretacion;
+                    if(notas.aplicacionDios) document.getElementById('note-apl-1').value = notas.aplicacionDios;
+                    if(notas.aplicacionVida) document.getElementById('note-apl-2').value = notas.aplicacionVida;
+                    
+                } catch (error) {
+                    console.error("Error al procesar el JSON de notas recuperadas:", error);
+                }
+            }
         }
     </script>
     <script src="capacitacion.js"></script>
