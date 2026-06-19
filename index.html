@@ -33,7 +33,7 @@
             display: flex; 
             flex-direction: column; 
             height: 100vh;
-            height: -webkit-fill-available; /* Corrige el espacio cortado en navegadores móviles */
+            height: -webkit-fill-available;
             overflow: hidden;
         }
 
@@ -49,17 +49,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 1.5rem;
+            padding: 0 1rem;
             height: 65px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             z-index: 100;
+            flex-shrink: 0;
         }
 
         .nav-logo { 
             color: white; 
             display: flex; 
             align-items: center; 
-            gap: 0.6rem; 
+            gap: 0.5rem; 
         }
 
         .nav-logo-text {
@@ -69,29 +70,29 @@
         }
 
         .nav-logo-text .title {
-            font-size: 1.15rem;
+            font-size: 1rem;
             font-weight: bold;
             letter-spacing: 0.5px;
         }
 
         .nav-logo-text .subtitle {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--accent);
             font-weight: 500;
         }
 
         .nav-menu { 
             display: flex; 
-            gap: 0.5rem; 
+            gap: 0.3rem; 
         }
 
         .nav-link {
             color: #cbd5e0;
             background: none;
             border: none;
-            padding: 0.6rem 1rem;
+            padding: 0.5rem 0.7rem;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-weight: 500;
             border-radius: 4px;
             transition: all 0.2s;
@@ -103,7 +104,7 @@
         }
 
         /* ==========================================================================
-           3. ESTRUCTURA DE CONTENEDORES (MESA DE ESTUDIO EN ESCRITORIO)
+           3. ESTRUCTURA DE CONTENEDORES (MESA DE ESTUDIO)
            ========================================================================== */
         .seccion-app { 
             display: flex; 
@@ -112,7 +113,7 @@
             position: relative;
         }
 
-        /* Barra de pestañas que en escritorio se integra arriba del panel derecho */
+        /* Barra de pestañas (Contenedor superior en el bloque derecho en PC) */
         .panel-header-tabs {
             background-color: #edf2f7;
             padding: 0.8rem 0.8rem 0 0.8rem;
@@ -121,11 +122,11 @@
             border-bottom: 1px solid var(--border);
             height: 45px;
             gap: 4px;
+            flex-shrink: 0;
         }
 
-        /* Pestaña "Texto Bíblico" oculta por defecto en PC porque está fija a la izquierda */
         #tab-biblia {
-            display: none;
+            display: none; /* Oculto en PC porque la biblia está fija a la izquierda */
         }
 
         .tab-item {
@@ -152,12 +153,7 @@
             border-top: 2px solid var(--accent);
         }
 
-        .tab-item:hover:not(.active) {
-            background-color: #cbd5e0;
-            color: var(--primary);
-        }
-
-        /* COLUMNA IZQUIERDA: Biblia Fija en Escritorio */
+        /* COLUMNA IZQUIERDA: Biblia (Fija en PC) */
         .bible-column { 
             flex: 1; 
             padding: 2rem; 
@@ -166,7 +162,7 @@
             background-color: var(--panel-bg); 
         }
 
-        /* COLUMNA DERECHA: Contenedor que aloja los paneles de Estudio y Recursos */
+        /* COLUMNA DERECHA: Contenedor de Estudio y Recursos */
         .side-panel-wrapper {
             width: 520px; 
             min-width: 450px;
@@ -175,7 +171,6 @@
             background-color: var(--tab-active-bg);
         }
 
-        /* Los contenedores hijos ocupan el espacio interno disponible */
         .study-column, .resources-column { 
             flex: 1;
             padding: 1.5rem;
@@ -188,7 +183,7 @@
         }
 
         /* ==========================================================================
-           4. COMPONENTES INTERNOS DE ESTUDIO Y BIBLIA
+           4. COMPONENTES INTERNOS
            ========================================================================== */
         .selector-box {
             background-color: #f7fafc;
@@ -224,7 +219,6 @@
         .bloque-inductivo {
             background: white; padding: 1.2rem; border-radius: 6px;
             border: 1px solid var(--border); margin-bottom: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
 
         h3 { color: var(--primary); margin-bottom: 0.5rem; font-size: 1.1rem; border-bottom: 2px solid #edf2f7; padding-bottom: 0.3rem; }
@@ -235,60 +229,55 @@
             width: 100%; height: 110px; padding: 0.6rem; border: 1px solid var(--border); 
             resize: none; border-radius: 4px; font-size: 0.95rem; outline: none;
         }
-        textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(22, 160, 133, 0.1); }
 
         .btn-save { 
             background-color: var(--accent); color: white; border: none; padding: 0.8rem; 
-            width: 100%; font-weight: bold; cursor: pointer; border-radius: 4px; font-size: 0.95rem; transition: background 0.2s;
+            width: 100%; font-weight: bold; cursor: pointer; border-radius: 4px; font-size: 0.95rem;
         }
         .btn-save:hover { background-color: #12826c; }
         .dict-box { background-color: #f7fafc; border-left: 4px solid var(--accent); padding: 1rem; margin-top: 0.5rem; border-radius: 0 4px 4px 0; border: 1px solid var(--border); }
 
-        /* ACADEMIA Y NOSOTROS */
-        .container-lectura { flex: 1; padding: 2.5rem 1.5rem; overflow-y: auto; max-width: 850px; margin: 0 auto; width: 100%; }
-        .seccion-header { margin-bottom: 2rem; border-bottom: 2px solid var(--border); padding-bottom: 1rem; }
-        .seccion-subtitle { color: var(--text-muted); margin-top: 0.5rem; font-size: 1.05rem; }
-        .card-leccion { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
-        .tag-disciplina { display: inline-block; background-color: #e2e8f0; color: #4a5568; font-size: 0.75rem; font-weight: bold; padding: 0.25rem 0.6rem; border-radius: 50px; text-transform: uppercase; margin-bottom: 0.6rem; }
-        .leccion-titulo { color: var(--primary); margin-bottom: 0.8rem; font-size: 1.25rem; }
-        .leccion-bloque { margin: 1rem 0; padding-left: 1rem; border-left: 3px solid #cbd5e0; font-style: italic; color: #4a5568; }
-        .leccion-meta { font-weight: bold; color: var(--primary); margin-bottom: 0.2rem; font-style: normal; }
-        .leccion-ejercicio { background-color: #f0fdf4; border: 1px dashed var(--accent); padding: 1rem; border-radius: 6px; margin-top: 1rem; }
+        /* VISTAS DE LECTURA ADICIONALES */
+        .container-lectura { flex: 1; padding: 2rem 1rem; overflow-y: auto; max-width: 850px; margin: 0 auto; width: 100%; }
+        .seccion-header { margin-bottom: 1.5rem; border-bottom: 2px solid var(--border); padding-bottom: 1rem; }
+        .card-leccion { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; margin-bottom: 1.2rem; }
+        .tag-disciplina { display: inline-block; background-color: #e2e8f0; color: #4a5568; font-size: 0.75rem; font-weight: bold; padding: 0.25rem 0.6rem; border-radius: 50px; text-transform: uppercase; margin-bottom: 0.5rem; }
 
         /* ==========================================================================
-           5. ADAPTACIÓN RESPONSIVA (MÓVIL) - CORREGIDA Y OPTIMIZADA
+           5. SOLUCIÓN COMPLETA AL DISEÑO RESPONSIVO (MÓVIL)
            ========================================================================== */
         @media (max-width: 1024px) { 
             .seccion-app { 
                 flex-direction: column; 
-                height: calc(100vh - 65px); /* Asegura que ocupe exactamente el espacio disponible bajo el nav */
+                height: calc(100vh - 65px);
             } 
 
             .panel-header-tabs {
                 width: 100%;
-                height: 50px;
+                height: 48px;
                 background-color: #edf2f7;
-                padding: 0.5rem 0.5rem 0 0.5rem;
+                padding: 0.4rem 0.4rem 0 0.4rem;
                 display: flex;
                 align-items: flex-end;
-                gap: 4px;
-                flex-shrink: 0; /* Evita que la barra de pestañas colapse al abrir el teclado */
+                gap: 2px;
+                flex-shrink: 0;
             }
 
             #tab-biblia {
-                display: block;
+                display: block; /* Visible obligatoriamente en móvil */
             }
 
             .tab-item {
                 flex: 1;
                 text-align: center;
-                font-size: 0.75rem;
-                padding: 0.5rem 0.2rem;
+                font-size: 0.72rem;
+                padding: 0.5rem 0.1rem;
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
             }
 
+            /* Evitamos que este contenedor distorsione la pantalla si está oculto */
             .side-panel-wrapper {
                 width: 100%;
                 min-width: 100%;
@@ -298,13 +287,15 @@
                 overflow: hidden;
             }
 
+            /* Corrección del corte a media pantalla: Ocupar el 100% real del espacio asignado */
             .bible-column, .study-column, .resources-column {
-                flex: 1;
                 width: 100%;
+                height: 100%;
+                flex: 1;
                 padding: 1rem;
                 border: none;
                 overflow-y: auto;
-                -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+                -webkit-overflow-scrolling: touch;
             }
         }
     </style>
@@ -320,19 +311,21 @@
             </div>
         </div>
         <div class="nav-menu">
-            <button class="nav-link active" id="btn-mesa" onclick="navegarA('mesa')">📖 Mesa de Estudio</button>
-            <button class="nav-link" id="btn-academia" onclick="navegarA('academia')">🎓 Academia Pastoral</button>
-            <button class="nav-link" id="btn-nosotros" onclick="navegarA('nosotros')">❤️ Sobre el Proyecto</button>
+            <button class="nav-link active" id="btn-mesa" onclick="navegarA('mesa')">📖 Mesa</button>
+            <button class="nav-link" id="btn-academia" onclick="navegarA('academia')">🎓 Academia</button>
+            <button class="nav-link" id="btn-nosotros" onclick="navegarA('nosotros')">❤️ Sobre</button>
         </div>
     </nav>
 
+    <!-- MESA DE ESTUDIO PRINCIPAL -->
     <div class="seccion-app" id="vista-mesa">
         
+        <!-- CONTENEDOR DE LA BIBLIA -->
         <div class="bible-column" id="contenido-tab-biblia">
             <div class="selector-box">
                 <label for="selector-libro">Libro:</label>
                 <select id="selector-libro" onchange="cargarLibroDinamico(this.value)">
-                    <option value="" disabled selected>-- Elige un Libro --</option>
+                    <option value="" disabled selected>-- Selecciona --</option>
                     <option value="luc">Lucas</option>
                     <option value="efe">Efesios</option>
                     <option value="1tim">1 Timoteo</option>
@@ -345,37 +338,39 @@
                     <option value="jud">Epístola de Judas</option>
                 </select>
 
-                <label for="selector-capitulo" id="label-capitulo" class="oculto">Capítulo:</label>
+                <label for="selector-capitulo" id="label-capitulo" class="oculto">Cap:</label>
                 <select id="selector-capitulo" class="oculto" onchange="filtrarCapituloEnPantalla(this.value)">
                 </select>
             </div>
             
             <div id="contenedor-biblia">
-                <p style="text-align: center; color: var(--text-muted); margin-top: 3rem; font-style: italic;">
-                    Por favor, selecciona un libro bíblico en el menú desplegable superior para comenzar tu estudio.
+                <p style="text-align: center; color: var(--text-muted); margin-top: 2rem; font-style: italic;">
+                    Selecciona un libro bíblico para comenzar.
                 </p>
             </div>
         </div>
 
+        <!-- CONTENEDOR DERECHO (Pestañas + Paneles de Trabajo) -->
         <div class="side-panel-wrapper" id="bloque-paneles-derechos">
             
             <div class="panel-header-tabs" id="barra-pestanas-global">
                 <span class="tab-item" id="tab-biblia" onclick="cambiarPestañaLateral('biblia')">Texto Bíblico</span>
                 <span class="tab-item active" id="tab-estudio" onclick="cambiarPestañaLateral('estudio')">Estudio Inductivo</span>
-                <span class="tab-item" id="tab-recursos" onclick="cambiarPestañaLateral('recursos')">Recursos y Herramientas</span>
+                <span class="tab-item" id="tab-recursos" onclick="cambiarPestañaLateral('recursos')">Recursos</span>
             </div>
 
+            <!-- Panel Estudio -->
             <div class="study-column" id="contenido-tab-estudio">
                 <div class="bloque-inductivo">
                     <h3>1. Observación Básica</h3>
-                    <p class="instruccion">¿Qué dice el texto? Anota palabras clave, contrastes y verbos principales.</p>
-                    <textarea id="note-obs" placeholder="Escribe aquí los patrones y detalles importantes..."></textarea>
+                    <p class="instruccion">¿Qué dice el texto? Anota palabras clave o verbos principales.</p>
+                    <textarea id="note-obs" placeholder="Ecribe detalles importantes aquí..."></textarea>
                 </div>
 
                 <div class="bloque-inductivo">
                     <h3>2. Interpretación</h3>
-                    <p class="instruccion">¿Qué significa el texto en su contexto original e histórico?</p>
-                    <textarea id="note-int" placeholder="¿Qué entendiste del mensaje original del autor?"></textarea>
+                    <p class="instruccion">¿Qué significa el texto en su contexto original?</p>
+                    <textarea id="note-int" placeholder="¿Qué entendiste del mensaje original?"></textarea>
                 </div>
 
                 <div class="bloque-inductivo">
@@ -383,31 +378,30 @@
                     <p class="instruccion">¿Cómo responde mi vida ante esta verdad?</p>
                     
                     <label>¿Qué me enseña acerca de Dios?</label>
-                    <textarea id="note-apl-1" placeholder="Tu respuesta enfocada en conocer a Dios..."></textarea>
+                    <textarea id="note-apl-1" placeholder="Enfocado en conocer a Dios..."></textarea>
 
                     <label>¿Hay alguna acción concreta que tomar?</label>
-                    <textarea id="note-apl-2" placeholder="Tu respuesta práctica para tu vida diaria..."></textarea>
+                    <textarea id="note-apl-2" placeholder="Aplicación práctica diaria..."></textarea>
                 </div>
 
                 <button class="btn-save" onclick="guardarEstudio()">Guardar Notas de Este Libro</button>
             </div>
 
+            <!-- Panel Recursos -->
             <div class="resources-column oculto" id="contenido-tab-recursos">
-                <p class="instruccion">Haz clic sobre un versículo a la izquierda para activar comentarios exegéticos y diccionarios Strong.</p>
                 <div id="interpretation-tool">
-                    <p style="color: var(--text-muted); font-style: italic; text-align: center; padding: 4rem 0;">Ningún versículo seleccionado actualmente.</p>
+                    <p style="color: var(--text-muted); font-style: italic; text-align: center; padding: 3rem 0;">Ningún versículo seleccionado.</p>
                 </div>
             </div>
 
         </div>
-
     </div>
 
+    <!-- OTRAS SECCIONES -->
     <div class="seccion-app oculto" id="vista-academia">
         <div class="container-lectura">
             <div class="seccion-header">
                 <h2>Capacitación Pastoral Básica</h2>
-                <p class="seccion-subtitle">Herramientas esenciales de exégesis, hermenéutica y homilética para líderes del pueblo.</p>
             </div>
             <div id="contenedor-lecciones"></div>
         </div>
@@ -417,30 +411,19 @@
         <div class="container-lectura" style="max-width: 700px;">
             <div class="seccion-header" style="text-align: center;">
                 <h2>El Corazón de Proyecto Berea</h2>
-                <p class="seccion-subtitle">"Escudriñando diariamente las Escrituras" — Hechos 17:11</p>
             </div>
-            <div class="card-leccion" style="border-left: 4px solid var(--accent);">
+            <div class="card-leccion">
                 <h3>🎯 Nuestra Misión</h3>
-                <p style="line-height: 1.6; font-size: 1.05rem; color: #4a5568; margin-top:0.5rem;">
-                    Equipar y dignificar el ministerio de los pastores y líderes locales en toda América Latina que no tienen acceso a una educación teológica formal o a costosos programas de estudio, proveyendo herramientas de análisis bíblico inductivo de alta calidad, 100% gratuitas, libres de publicidad y accesibles desde cualquier dispositivo.
-                </p>
-            </div>
-            <div class="card-leccion" style="border-left: 4px solid var(--primary);">
-                <h3>👁️ Nuestra Visión</h3>
-                <p style="line-height: 1.6; font-size: 1.05rem; color: #4a5568; margin-top:0.5rem;">
-                    Ver una iglesia hispanohablante profundamente arraigada en las Escrituras, donde la falta de recursos económicos nunca vuelva a ser una barrera para estudiar, interpretar con precisión exegética y proclamar fielmente la Palabra de Dios.
-                </p>
+                <p>Equipar y dignificar el ministerio de los pastores y líderes locales proveyendo herramientas de análisis bíblico inductivo gratuitas.</p>
             </div>
         </div>
     </div>
 
     <script>
-        // Guardamos el ancho inicial del dispositivo para controlar redimensiones reales
         let anchoUltimaVentana = window.innerWidth;
-        let pestanaActivaMovil = 'biblia'; // Controla qué pestaña debe quedarse abierta en móvil
+        let pestanaActivaMovil = 'biblia'; 
 
         window.onload = function() {
-            // Cargar lecciones dinámicas desde capacitacion.js si existen
             const contenedorLecciones = document.getElementById('contenedor-lecciones');
             if(contenedorLecciones && typeof leccionesTeologicas !== 'undefined') {
                 let htmlLecciones = "";
@@ -448,30 +431,17 @@
                     htmlLecciones += `
                         <div class="card-leccion">
                             <span class="tag-disciplina">${lec.disciplina}</span>
-                            <h3 class="leccion-titulo">${lec.titulo}</h3>
-                            <p><strong>Concepto Central:</strong> ${lec.concepto}</p>
-                            <div class="leccion-bloque">
-                                <p class="leccion-meta">Ejemplo:</p>
-                                <p>${lec.ejemplo}</p>
-                            </div>
-                            <div class="leccion-ejercicio">
-                                <p class="leccion-meta">Ejercicio práctico:</p>
-                                <p>${lec.ejercicio}</p>
-                            </div>
+                            <h3>${lec.titulo}</h3>
+                            <p><strong>Concepto:</strong> ${lec.concepto}</p>
                         </div>
                     `;
                 });
                 contenedorLecciones.innerHTML = htmlLecciones;
             }
-            
-            // Forzar renderizado inicial limpio
             ajustarLayoutPorDispositivo(true);
         };
 
         window.onresize = function() {
-            // BLINDAJE CONTRA EL TECLADO MÓVIL:
-            // Solo ejecuta la reestructuración si cambia el ANCHO de la pantalla (ej: rotación).
-            // Si cambia el alto, significa que el teclado virtual se abrió/cerró y no debemos interrumpir.
             if (window.innerWidth !== anchoUltimaVentana) {
                 anchoUltimaVentana = window.innerWidth;
                 ajustarLayoutPorDispositivo(false);
@@ -483,11 +453,11 @@
             const vistaMesa = document.getElementById('vista-mesa');
             
             if (window.innerWidth > 1024) {
-                // MODO ESCRITORIO: Reubicar barra dentro del panel derecho
                 const panelDerecho = document.getElementById('bloque-paneles-derechos');
                 if (barraPestanas.parentElement !== panelDerecho) {
                     panelDerecho.insertBefore(barraPestanas, panelDerecho.firstChild);
                 }
+                document.getElementById('bloque-paneles-derechos').classList.remove('oculto');
                 document.getElementById('contenido-tab-biblia').classList.remove('oculto');
                 
                 const conRecursos = document.getElementById('contenido-tab-recursos');
@@ -497,15 +467,12 @@
                     cambiarPestañaLateral('recursos');
                 }
             } else {
-                // MODO MÓVIL: Reubicar la barra directamente en el contenedor principal de la app
                 if (barraPestanas.parentElement !== vistaMesa) {
                     vistaMesa.insertBefore(barraPestanas, vistaMesa.firstChild);
                 }
-                // Si es la primera vez que carga la app, forzar la vista de la Biblia
                 if (esCargaInicial) {
                     cambiarPestañaLateral('biblia');
                 } else {
-                    // Mantener de forma segura la pestaña que el usuario ya estaba editando
                     cambiarPestañaLateral(pestanaActivaMovil);
                 }
             }
@@ -532,7 +499,6 @@
             }
         }
 
-        /* CONTROLADOR LIMPIO DE VISIBILIDAD DE PESTAÑAS */
         function cambiarPestañaLateral(pestañaSeleccionada) {
             const tabBiblia = document.getElementById('tab-biblia');
             const tabEstudio = document.getElementById('tab-estudio');
@@ -541,33 +507,38 @@
             const conBiblia = document.getElementById('contenido-tab-biblia');
             const conEstudio = document.getElementById('contenido-tab-estudio');
             const conRecursos = document.getElementById('contenido-tab-recursos');
+            const bloqueDerecho = document.getElementById('bloque-paneles-derechos');
 
-            // Resetear estados visuales de los botones
             tabBiblia.classList.remove('active');
             tabEstudio.classList.remove('active');
             tabRecursos.classList.remove('active');
 
             if (window.innerWidth <= 1024) {
-                pestanaActivaMovil = pestañaSeleccionada; // Guardamos el estado para evitar brincos
+                pestanaActivaMovil = pestañaSeleccionada;
                 
-                // COMPORTAMIENTO MÓVIL: Una sola pantalla visible a la vez
-                conBiblia.classList.add('oculto');
-                conEstudio.classList.add('oculto');
-                conRecursos.classList.add('oculto');
-
+                // MÓVIL: Ocultamos de raíz el bloque que no corresponda
                 if (pestañaSeleccionada === 'biblia') {
                     tabBiblia.classList.add('active');
                     conBiblia.classList.remove('oculto');
-                } else if (pestañaSeleccionada === 'estudio') {
-                    tabEstudio.classList.add('active');
-                    conEstudio.classList.remove('oculto');
-                } else if (pestañaSeleccionada === 'recursos') {
-                    tabRecursos.classList.add('active');
-                    conRecursos.classList.remove('oculto');
+                    bloqueDerecho.classList.add('oculto'); // Oculta paneles de estudio por completo
+                } else {
+                    conBiblia.classList.add('oculto');
+                    bloqueDerecho.classList.remove('oculto'); // Muestra el contenedor de estudio
+                    
+                    if (pestañaSeleccionada === 'estudio') {
+                        tabEstudio.classList.add('active');
+                        conEstudio.classList.remove('oculto');
+                        conRecursos.classList.add('oculto');
+                    } else if (pestañaSeleccionada === 'recursos') {
+                        tabRecursos.classList.add('active');
+                        conEstudio.classList.add('oculto');
+                        conRecursos.classList.remove('oculto');
+                    }
                 }
             } else {
-                // COMPORTAMIENTO ESCRITORIO: Biblia SIEMPRE visible a la izquierda
+                // ESCRITORIO
                 conBiblia.classList.remove('oculto');
+                bloqueDerecho.classList.remove('oculto');
 
                 if (pestañaSeleccionada === 'recursos') {
                     tabRecursos.classList.add('active');
@@ -615,10 +586,8 @@
             selectorCapitulo.value = primerCapitulo;
             filtrarCapituloEnPantalla(primerCapitulo);
             
-            // En móvil, pasamos de inmediato a la pestaña de estudio inductivo una vez que se selecciona el libro
-            if (window.innerWidth <= 1024) {
-                cambiarPestañaLateral('estudio');
-            }
+            // ELIMINADA la línea de cambio forzado a estudio inductivo en móviles.
+            // Ahora se mantendrá de forma fija en la pestaña de la Biblia para permitir la lectura continua.
         }
 
         function filtrarCapituloEnPantalla(numCapitulo) {
@@ -671,14 +640,9 @@
             toolBox.innerHTML = htmlResultado;
         }
 
-        /* LÓGICA DE PERSISTENCIA: GUARDAR NOTAS EN LOCALSTORAGE */
         function guardarEstudio() {
             const libroActivo = document.getElementById('selector-libro').value;
-            
-            if (!libroActivo) {
-                alert("Por favor selecciona un libro antes de guardar tus notas.");
-                return;
-            }
+            if (!libroActivo) return;
 
             const notas = {
                 observacion: document.getElementById('note-obs').value,
@@ -686,12 +650,10 @@
                 aplicacionDios: document.getElementById('note-apl-1').value,
                 aplicacionVida: document.getElementById('note-apl-2').value
             };
-
             localStorage.setItem(`berea_notas_${libroActivo}`, JSON.stringify(notas));
-            alert(`Notas de ${DatosLibroActual.titulo} guardadas localmente de forma segura.`);
+            alert("Notas guardadas correctamente.");
         }
 
-        /* LÓGICA DE PERSISTENCIA: LEER Y CARGAR NOTAS DE LOCALSTORAGE */
         function cargarNotasGuardadas(codigoLibro) {
             document.getElementById('note-obs').value = "";
             document.getElementById('note-int').value = "";
@@ -699,19 +661,14 @@
             document.getElementById('note-apl-2').value = "";
 
             const datosGuardados = localStorage.getItem(`berea_notas_${codigoLibro}`);
-
             if (datosGuardados) {
                 try {
                     const notas = JSON.parse(datosGuardados);
-                    
                     if(notas.observacion) document.getElementById('note-obs').value = notas.observacion;
                     if(notas.interpretacion) document.getElementById('note-int').value = notas.interpretacion;
                     if(notas.aplicacionDios) document.getElementById('note-apl-1').value = notas.aplicacionDios;
                     if(notas.aplicacionVida) document.getElementById('note-apl-2').value = notas.aplicacionVida;
-                    
-                } catch (error) {
-                    console.error("Error al procesar el JSON de notas recuperadas:", error);
-                }
+                } catch (e) { console.error(e); }
             }
         }
     </script>
