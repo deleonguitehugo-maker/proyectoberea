@@ -110,7 +110,7 @@
             display: none !important; 
         }
 
-        /* COLUMNA BIBLIA: Cede espacio de forma fluida */
+        /* COLUMNA BIBLIA */
         .bible-column { 
             flex: 1; 
             padding: 2rem; 
@@ -177,9 +177,7 @@
             margin-right: 0.6rem; 
         }
 
-        /* ==========================================================================
-           MODIFICACIÓN DE ANCHO: PANEL LATERAL DERECHO
-           ========================================================================== */
+        /* PANEL LATERAL ESCRITORIO */
         .side-panel-wrapper {
             width: 520px; 
             min-width: 480px;
@@ -189,7 +187,6 @@
             border-left: 1px solid var(--border);
         }
 
-        /* PESTAÑAS ORIGINALES TIPO ARCHIVADOR DE DOS CARPETAS */
         .panel-header-tabs {
             background-color: #edf2f7;
             padding: 0.8rem 0.8rem 0 0.8rem;
@@ -233,7 +230,7 @@
             color: var(--primary);
         }
 
-        /* CONTENIDOS INTERNOS DE LAS CARPETAS */
+        /* CONTENIDOS INTERNOS */
         .study-column { 
             flex: 1;
             padding: 1.5rem;
@@ -299,9 +296,7 @@
             border: 1px solid var(--border);
         }
 
-        /* ==========================================================================
-           4. VISTAS SECUNDARIAS: ACADEMIA Y NOSOTROS
-           ========================================================================== */
+        /* ACADEMIA Y NOSOTROS */
         .container-lectura { 
             flex: 1; 
             padding: 2.5rem 1.5rem; 
@@ -350,7 +345,7 @@
         .leccion-ejercicio { background-color: #f0fdf4; border: 1px dashed var(--accent); padding: 1rem; border-radius: 6px; margin-top: 1rem; }
 
         /* ==========================================================================
-           5. RE-DISEÑO DE PESTAÑAS EXCLUSIVO PARA MÓVILES (3 PESTAÑAS FIJAS)
+           5. RE-DISEÑO DE PESTAÑAS EXCLUSIVO PARA MÓVILES (SOLUCIÓN FIJA DE CAPAS)
            ========================================================================== */
         @media (max-width: 1024px) { 
             body {
@@ -362,11 +357,9 @@
                 position: relative;
                 flex: 1; 
                 overflow: hidden; 
-                display: flex;
-                flex-direction: column;
             } 
 
-            /* Contenedor de la barra de pestañas real */
+            /* LA BARRA DE PESTAÑAS SE QUEDA SIEMPRE FIJA ARRIBA EN CAPA SUPREMA (z-index: 60) */
             .panel-header-tabs {
                 position: absolute;
                 top: 0; left: 0; right: 0;
@@ -374,36 +367,37 @@
                 display: flex;
                 background-color: #edf2f7;
                 padding: 0.5rem 0.5rem 0 0.5rem;
-                z-index: 50;
+                z-index: 60; 
                 border-bottom: 1px solid var(--border);
                 align-items: flex-end;
                 gap: 4px;
+                width: 100%;
             }
 
-            /* Inyección CSS de la pestaña de la Biblia en la primera posición */
+            /* Pestaña inyectada de la Biblia */
             .panel-header-tabs::before {
                 content: "Texto Bíblico";
                 color: var(--primary);
                 background-color: var(--tab-active-bg);
                 border-top: 2px solid var(--accent);
                 font-weight: bold;
-                font-size: 0.75rem;
-                padding: 0.5rem 0.4rem;
+                font-size: 0.72rem;
+                padding: 0.5rem 0.2rem;
                 border-radius: 5px 5px 0 0;
                 border-left: 1px solid var(--border);
                 border-right: 1px solid var(--border);
                 text-transform: uppercase;
-                letter-spacing: 0.5px;
+                letter-spacing: 0.3px;
                 cursor: pointer;
                 text-align: center;
                 flex: 1;
                 margin-bottom: -1px;
-                order: 1; /* Forzamos a que se renderice primero */
+                order: 1;
             }
 
             .tab-item {
-                font-size: 0.75rem;
-                padding: 0.5rem 0.4rem;
+                font-size: 0.72rem;
+                padding: 0.5rem 0.2rem;
                 flex: 1;
                 text-align: center;
                 text-overflow: ellipsis;
@@ -411,12 +405,18 @@
                 white-space: nowrap;
             }
 
-            /* Re-ordenamiento visual en la barra */
             #tab-estudio { order: 2; }
             #tab-recursos { order: 3; }
 
-            /* Definimos el espacio físico de los dos bloques principales ocupando el 100% */
-            .bible-column, .side-panel-wrapper {
+            /* EL CONTENEDOR PADRE SE CONVIERTE EN CAPA DE FONDO */
+            .side-panel-wrapper {
+                position: static; /* Rompe el aislamiento para heredar z-index individuales */
+                width: 100%;
+                min-width: 100%;
+            }
+
+            /* LAS VENTANAS DE CONTENIDO EMPIEZAN ABAJO DE LA BARRA FIJA (top: 50px) */
+            .bible-column, .study-column, .resources-column {
                 position: absolute;
                 top: 50px; left: 0; right: 0; bottom: 0;
                 width: 100%;
@@ -425,23 +425,23 @@
                 border: none;
             }
 
-            /* --- CONTROLADOR INTELIGENTE DE CAPAS DEPENDIENDO DEL ESTADO DE TU JAVASCRIPT --- */
-
-            /* ESTADO 1: Por defecto, si el usuario está en modo lectura de la Biblia */
+            /* --- CONTROL INTERNO DE VISIBILIDAD --- */
+            
+            /* Caso 1: Biblia Activa (Por Defecto) */
             .bible-column {
-                z-index: 30; /* Al frente */
+                z-index: 30; /* Al frente de los contenidos */
                 background-color: var(--panel-bg);
                 padding: 1rem;
             }
-            .side-panel-wrapper {
-                z-index: 10; /* Al fondo */
+            .study-column, .resources-column {
+                z-index: 10; /* Ocultos atrás */
             }
 
-            /* ESTADO 2: Si tu JS activa la pestaña 'estudio' u 'observación' */
-            .seccion-app:has(#tab-estudio.active) .side-panel-wrapper {
-                z-index: 40; /* Pasa por encima de la Biblia */
+            /* Caso 2: Pestaña Estudio Activa en tu JS */
+            .seccion-app:has(#tab-estudio.active) .study-column {
+                z-index: 40; /* Pasa al frente cubriendo la Biblia */
+                display: flex !important; /* Fuerza visualización si JS altera clases */
             }
-            /* Apagamos el botón falso de la Biblia cuando 'estudio' está activo */
             .seccion-app:has(#tab-estudio.active) .panel-header-tabs::before {
                 background-color: #e2e8f0;
                 color: #8a99ad;
@@ -449,20 +449,17 @@
                 border-bottom: 1px solid var(--border);
             }
 
-            /* ESTADO 3: Si tu JS activa la pestaña 'recursos' (al presionar un versículo) */
-            .seccion-app:has(#tab-recursos.active) .side-panel-wrapper {
-                z-index: 40; /* Pasa por encima de la Biblia */
+            /* Caso 3: Pestaña Recursos Activa en tu JS */
+            .seccion-app:has(#tab-recursos.active) .resources-column {
+                z-index: 40; /* Pasa al frente cubriendo la Biblia */
+                display: block !important;
             }
-            /* Apagamos el botón falso de la Biblia cuando 'recursos' está activo */
             .seccion-app:has(#tab-recursos.active) .panel-header-tabs::before {
                 background-color: #e2e8f0;
                 color: #8a99ad;
                 border-top: none;
                 border-bottom: 1px solid var(--border);
             }
-
-            /* Aseguramos que el click en la pestaña falsa de la Biblia reinicie la vista ocultando los bloques laterales */
-            /* En lugar de usar JS, al hacer click en el botón superior "Mesa de Estudio", tu JS nativo refresca el contenedor */
         }
     </style>
 </head>
@@ -535,7 +532,7 @@
                 </div>
 
                 <div class="bloque-inductivo">
-                    <h3>3. Aplicación Personal</h3>
+                    <h3>3. Application Personal</h3>
                     <p class="instruccion">¿Cómo responde mi vida ante esta verdad?</p>
                     
                     <label>¿Qué me enseña acerca de Dios?</label>
@@ -619,21 +616,16 @@
                     `;
                 });
                 contenedorLecciones.innerHTML = htmlLecciones;
-            } else {
-                console.error("No se pudo cargar leccionesTeologicas. Revisa que capacitacion.js esté bien enlazado.");
             }
 
-            // ENLACE EXCLUSIVO PARA MÓVIL: Hacemos que al tocar la pestaña falsa de la Biblia, limpie las clases activas del panel lateral
-            const pestanaFalsaBiblia = document.querySelector('.panel-header-tabs');
-            if(pestanaFalsaBiblia) {
-                // Añadimos un listener directo en CSS o evento para capturar el click en la zona izquierda de la barra
-                pestanaFalsaBiblia.addEventListener('click', function(e) {
-                    if (window.innerWidth <= 1024 && e.offsetX < (pestanaFalsaBiblia.offsetWidth / 3)) {
-                        // El usuario tocó el área de la primera pestaña falsa
+            // DETECTOR EN MÓVIL PARA LA PESTAÑA DE LA BIBLIA
+            const pestanaContenedor = document.querySelector('.panel-header-tabs');
+            if(pestanaContenedor) {
+                pestanaContenedor.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 1024 && e.offsetX < (pestanaContenedor.offsetWidth / 3)) {
+                        // Forzamos el estado desactivado de los botones originales para que la Biblia pase al frente
                         document.getElementById('tab-estudio').className = "tab-item inactive";
                         document.getElementById('tab-recursos').className = "tab-item inactive";
-                        document.getElementById('contenido-tab-estudio').classList.add('oculto');
-                        document.getElementById('contenido-tab-recursos').classList.add('oculto');
                     }
                 });
             }
@@ -659,7 +651,6 @@
             }
         }
 
-        /* FUNCIÓN CONTROLADORA DE LAS DOS CARPETAS LATERALES */
         function cambiarPestañaLateral(pestañaSeleccionada) {
             const tabEstudio = document.getElementById('tab-estudio');
             const tabRecursos = document.getElementById('tab-recursos');
@@ -679,7 +670,6 @@
             }
         }
 
-        /* CARGA DINÁMICA DE LIBROS CORRECTA */
         function cargarLibroDinamico(codigoLibro) {
             const scriptViejo = document.getElementById('script-libro-activo');
             if (scriptViejo) scriptViejo.remove();
@@ -691,8 +681,6 @@
             nuevoScript.onload = function() {
                 if (typeof DatosLibroActual !== 'undefined') {
                     renderizarLibroEnPantalla();
-                } else {
-                    alert("Error: Formato de archivo de libro incorrecto.");
                 }
             };
             document.body.appendChild(nuevoScript);
@@ -715,12 +703,9 @@
             selectorCapitulo.value = primerCapitulo;
             filtrarCapituloEnPantalla(primerCapitulo);
 
-            // Al cargar libro en móvil, garantizamos que empiece mostrando el Texto Bíblico
             if(window.innerWidth <= 1024) {
                 document.getElementById('tab-estudio').className = "tab-item inactive";
                 document.getElementById('tab-recursos').className = "tab-item inactive";
-                document.getElementById('contenido-tab-estudio').classList.add('oculto');
-                document.getElementById('contenido-tab-recursos').classList.add('oculto');
             } else {
                 cambiarPestañaLateral('estudio');
             }
