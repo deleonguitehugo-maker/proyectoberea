@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Proyecto Berea - Estudio Inductivo Abierto</title>
     <style>
         /* ==========================================================================
@@ -32,8 +32,13 @@
             color: var(--text); 
             display: flex; 
             flex-direction: column; 
-            height: 100vh; 
+            height: 100vh;
+            height: -webkit-fill-available; /* Corrige el espacio cortado en navegadores móviles */
             overflow: hidden;
+        }
+
+        html {
+            height: -webkit-fill-available;
         }
 
         /* ==========================================================================
@@ -246,13 +251,17 @@
         .card-leccion { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
         .tag-disciplina { display: inline-block; background-color: #e2e8f0; color: #4a5568; font-size: 0.75rem; font-weight: bold; padding: 0.25rem 0.6rem; border-radius: 50px; text-transform: uppercase; margin-bottom: 0.6rem; }
         .leccion-titulo { color: var(--primary); margin-bottom: 0.8rem; font-size: 1.25rem; }
+        .leccion-bloque { margin: 1rem 0; padding-left: 1rem; border-left: 3px solid #cbd5e0; font-style: italic; color: #4a5568; }
+        .leccion-meta { font-weight: bold; color: var(--primary); margin-bottom: 0.2rem; font-style: normal; }
+        .leccion-ejercicio { background-color: #f0fdf4; border: 1px dashed var(--accent); padding: 1rem; border-radius: 6px; margin-top: 1rem; }
 
         /* ==========================================================================
-           5. ADAPTACIÓN RESPONSIVA (MÓVIL) - FLEXBOX PURO SIN ABSOLUTES
+           5. ADAPTACIÓN RESPONSIVA (MÓVIL) - CORREGIDA Y OPTIMIZADA
            ========================================================================== */
         @media (max-width: 1024px) { 
             .seccion-app { 
                 flex-direction: column; 
+                height: calc(100vh - 65px); /* Asegura que ocupe exactamente el espacio disponible bajo el nav */
             } 
 
             .panel-header-tabs {
@@ -263,6 +272,7 @@
                 display: flex;
                 align-items: flex-end;
                 gap: 4px;
+                flex-shrink: 0; /* Evita que la barra de pestañas colapse al abrir el teclado */
             }
 
             #tab-biblia {
@@ -285,14 +295,16 @@
                 flex: 1;
                 display: flex;
                 flex-direction: column;
+                overflow: hidden;
             }
 
             .bible-column, .study-column, .resources-column {
                 flex: 1;
                 width: 100%;
-                height: 100%;
                 padding: 1rem;
                 border: none;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
             }
         }
     </style>
@@ -314,10 +326,8 @@
         </div>
     </nav>
 
-    <!-- VISTA PRINCIPAL: MESA DE ESTUDIO -->
     <div class="seccion-app" id="vista-mesa">
         
-        <!-- CONTENEDOR 1: LA BIBLIA (Izquierda en PC) -->
         <div class="bible-column" id="contenido-tab-biblia">
             <div class="selector-box">
                 <label for="selector-libro">Libro:</label>
@@ -347,17 +357,14 @@
             </div>
         </div>
 
-        <!-- CONTENEDOR 2: BLOQUE DERECHO (Aloja pestañas y contenidos de Estudio/Herramientas) -->
         <div class="side-panel-wrapper" id="bloque-paneles-derechos">
             
-            <!-- Barra de Pestañas Real -->
             <div class="panel-header-tabs" id="barra-pestanas-global">
                 <span class="tab-item" id="tab-biblia" onclick="cambiarPestañaLateral('biblia')">Texto Bíblico</span>
                 <span class="tab-item active" id="tab-estudio" onclick="cambiarPestañaLateral('estudio')">Estudio Inductivo</span>
                 <span class="tab-item" id="tab-recursos" onclick="cambiarPestañaLateral('recursos')">Recursos y Herramientas</span>
             </div>
 
-            <!-- Panel de Estudio Inductivo -->
             <div class="study-column" id="contenido-tab-estudio">
                 <div class="bloque-inductivo">
                     <h3>1. Observación Básica</h3>
@@ -385,7 +392,6 @@
                 <button class="btn-save" onclick="guardarEstudio()">Guardar Notas de Este Libro</button>
             </div>
 
-            <!-- Panel de Recursos Exegéticos -->
             <div class="resources-column oculto" id="contenido-tab-recursos">
                 <p class="instruccion">Haz clic sobre un versículo a la izquierda para activar comentarios exegéticos y diccionarios Strong.</p>
                 <div id="interpretation-tool">
@@ -397,7 +403,6 @@
 
     </div>
 
-    <!-- SECCIONES DE ACADEMIA Y NOSOTROS -->
     <div class="seccion-app oculto" id="vista-academia">
         <div class="container-lectura">
             <div class="seccion-header">
@@ -417,15 +422,25 @@
             <div class="card-leccion" style="border-left: 4px solid var(--accent);">
                 <h3>🎯 Nuestra Misión</h3>
                 <p style="line-height: 1.6; font-size: 1.05rem; color: #4a5568; margin-top:0.5rem;">
-                    Equipar y dignificar el ministerio de los pastores y líderes locales en toda América Latina que no tienen acceso a una educación teológica formal.
+                    Equipar y dignificar el ministerio de los pastores y líderes locales en toda América Latina que no tienen acceso a una educación teológica formal o a costosos programas de estudio, proveyendo herramientas de análisis bíblico inductivo de alta calidad, 100% gratuitas, libres de publicidad y accesibles desde cualquier dispositivo.
+                </p>
+            </div>
+            <div class="card-leccion" style="border-left: 4px solid var(--primary);">
+                <h3>👁️ Nuestra Visión</h3>
+                <p style="line-height: 1.6; font-size: 1.05rem; color: #4a5568; margin-top:0.5rem;">
+                    Ver una iglesia hispanohablante profundamente arraigada en las Escrituras, donde la falta de recursos económicos nunca vuelva a ser una barrera para estudiar, interpretar con precisión exegética y proclamar fielmente la Palabra de Dios.
                 </p>
             </div>
         </div>
     </div>
 
     <script>
+        // Guardamos el ancho inicial del dispositivo para controlar redimensiones reales
+        let anchoUltimaVentana = window.innerWidth;
+        let pestanaActivaMovil = 'biblia'; // Controla qué pestaña debe quedarse abierta en móvil
+
         window.onload = function() {
-            // Cargar lecciones si existen
+            // Cargar lecciones dinámicas desde capacitacion.js si existen
             const contenedorLecciones = document.getElementById('contenedor-lecciones');
             if(contenedorLecciones && typeof leccionesTeologicas !== 'undefined') {
                 let htmlLecciones = "";
@@ -435,6 +450,14 @@
                             <span class="tag-disciplina">${lec.disciplina}</span>
                             <h3 class="leccion-titulo">${lec.titulo}</h3>
                             <p><strong>Concepto Central:</strong> ${lec.concepto}</p>
+                            <div class="leccion-bloque">
+                                <p class="leccion-meta">Ejemplo:</p>
+                                <p>${lec.ejemplo}</p>
+                            </div>
+                            <div class="leccion-ejercicio">
+                                <p class="leccion-meta">Ejercicio práctico:</p>
+                                <p>${lec.ejercicio}</p>
+                            </div>
                         </div>
                     `;
                 });
@@ -442,12 +465,20 @@
             }
             
             // Forzar renderizado inicial limpio
-            ajustarLayoutPorDispositivo();
+            ajustarLayoutPorDispositivo(true);
         };
 
-        window.onresize = ajustarLayoutPorDispositivo;
+        window.onresize = function() {
+            // BLINDAJE CONTRA EL TECLADO MÓVIL:
+            // Solo ejecuta la reestructuración si cambia el ANCHO de la pantalla (ej: rotación).
+            // Si cambia el alto, significa que el teclado virtual se abrió/cerró y no debemos interrumpir.
+            if (window.innerWidth !== anchoUltimaVentana) {
+                anchoUltimaVentana = window.innerWidth;
+                ajustarLayoutPorDispositivo(false);
+            }
+        };
 
-        function ajustarLayoutPorDispositivo() {
+        function ajustarLayoutPorDispositivo(esCargaInicial) {
             const barraPestanas = document.getElementById('barra-pestanas-global');
             const vistaMesa = document.getElementById('vista-mesa');
             
@@ -458,7 +489,7 @@
                     panelDerecho.insertBefore(barraPestanas, panelDerecho.firstChild);
                 }
                 document.getElementById('contenido-tab-biblia').classList.remove('oculto');
-                // Mantener el estado por defecto del panel derecho
+                
                 const conRecursos = document.getElementById('contenido-tab-recursos');
                 if (conRecursos.classList.contains('oculto')) {
                     cambiarPestañaLateral('estudio');
@@ -470,8 +501,13 @@
                 if (barraPestanas.parentElement !== vistaMesa) {
                     vistaMesa.insertBefore(barraPestanas, vistaMesa.firstChild);
                 }
-                // Activar por defecto la Biblia en móvil al inicio o redimensión
-                cambiarPestañaLateral('biblia');
+                // Si es la primera vez que carga la app, forzar la vista de la Biblia
+                if (esCargaInicial) {
+                    cambiarPestañaLateral('biblia');
+                } else {
+                    // Mantener de forma segura la pestaña que el usuario ya estaba editando
+                    cambiarPestañaLateral(pestanaActivaMovil);
+                }
             }
         }
 
@@ -486,7 +522,7 @@
             if(destino === 'mesa') {
                 document.getElementById('btn-mesa').classList.add('active');
                 document.getElementById('vista-mesa').classList.remove('oculto');
-                ajustarLayoutPorDispositivo();
+                ajustarLayoutPorDispositivo(true);
             } else if(destino === 'academia') {
                 document.getElementById('btn-academia').classList.add('active');
                 document.getElementById('vista-academia').classList.remove('oculto');
@@ -512,6 +548,8 @@
             tabRecursos.classList.remove('active');
 
             if (window.innerWidth <= 1024) {
+                pestanaActivaMovil = pestañaSeleccionada; // Guardamos el estado para evitar brincos
+                
                 // COMPORTAMIENTO MÓVIL: Una sola pantalla visible a la vez
                 conBiblia.classList.add('oculto');
                 conEstudio.classList.add('oculto');
@@ -536,7 +574,6 @@
                     conEstudio.classList.add('oculto');
                     conRecursos.classList.remove('oculto');
                 } else {
-                    // Por defecto se muestra la de Estudio Inductivo a la derecha
                     tabEstudio.classList.add('active');
                     conEstudio.classList.remove('oculto');
                     conRecursos.classList.add('oculto');
@@ -555,7 +592,6 @@
             nuevoScript.onload = function() {
                 if (typeof DatosLibroActual !== 'undefined') {
                     renderizarLibroEnPantalla();
-                    // RECUPERACIÓN: Busca y monta las notas guardadas de este libro específico
                     cargarNotasGuardadas(codigoLibro);
                 }
             };
@@ -578,6 +614,11 @@
             const primerCapitulo = DatosLibroActual.capitulos[0].capitulo;
             selectorCapitulo.value = primerCapitulo;
             filtrarCapituloEnPantalla(primerCapitulo);
+            
+            // En móvil, pasamos de inmediato a la pestaña de estudio inductivo una vez que se selecciona el libro
+            if (window.innerWidth <= 1024) {
+                cambiarPestañaLateral('estudio');
+            }
         }
 
         function filtrarCapituloEnPantalla(numCapitulo) {
@@ -606,7 +647,6 @@
             const capituloObj = DatosLibroActual.capitulos.find(c => c.capitulo === numCapitulo);
             const vEncontrado = capituloObj.versiculos.find(v => v.num === numVersiculo);
             
-            // Al hacer clic, abre la pestaña de recursos de forma nativa
             cambiarPestañaLateral('recursos');
 
             const toolBox = document.getElementById('interpretation-tool');
@@ -653,13 +693,11 @@
 
         /* LÓGICA DE PERSISTENCIA: LEER Y CARGAR NOTAS DE LOCALSTORAGE */
         function cargarNotasGuardadas(codigoLibro) {
-            // Limpieza preventiva de todos los campos de texto
             document.getElementById('note-obs').value = "";
             document.getElementById('note-int').value = "";
             document.getElementById('note-apl-1').value = "";
             document.getElementById('note-apl-2').value = "";
 
-            // Cargar datos si existen para el libro activo
             const datosGuardados = localStorage.getItem(`berea_notas_${codigoLibro}`);
 
             if (datosGuardados) {
