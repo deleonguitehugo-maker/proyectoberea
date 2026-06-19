@@ -27,18 +27,18 @@
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
         }
 
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
         body { 
             background-color: var(--bg); 
             color: var(--text); 
             display: flex; 
             flex-direction: column; 
-            height: 100vh;
-            height: -webkit-fill-available;
-            overflow: hidden;
-        }
-
-        html {
-            height: -webkit-fill-available;
         }
 
         /* ==========================================================================
@@ -108,12 +108,13 @@
            ========================================================================== */
         .seccion-app { 
             display: flex; 
-            flex: 1; 
+            flex: 1 1 auto; 
             overflow: hidden; 
             position: relative;
+            width: 100%;
         }
 
-        /* Barra de pestañas (Contenedor superior en el bloque derecho en PC) */
+        /* Barra de pestañas */
         .panel-header-tabs {
             background-color: #edf2f7;
             padding: 0.8rem 0.8rem 0 0.8rem;
@@ -126,7 +127,7 @@
         }
 
         #tab-biblia {
-            display: none; /* Oculto en PC porque la biblia está fija a la izquierda */
+            display: none; 
         }
 
         .tab-item {
@@ -153,7 +154,7 @@
             border-top: 2px solid var(--accent);
         }
 
-        /* COLUMNA IZQUIERDA: Biblia (Fija en PC) */
+        /* COLUMNA IZQUIERDA: Biblia */
         .bible-column { 
             flex: 1; 
             padding: 2rem; 
@@ -162,7 +163,7 @@
             background-color: var(--panel-bg); 
         }
 
-        /* COLUMNA DERECHA: Contenedor de Estudio y Recursos */
+        /* COLUMNA DERECHA */
         .side-panel-wrapper {
             width: 520px; 
             min-width: 450px;
@@ -237,19 +238,19 @@
         .btn-save:hover { background-color: #12826c; }
         .dict-box { background-color: #f7fafc; border-left: 4px solid var(--accent); padding: 1rem; margin-top: 0.5rem; border-radius: 0 4px 4px 0; border: 1px solid var(--border); }
 
-        /* VISTAS DE LECTURA ADICIONALES */
         .container-lectura { flex: 1; padding: 2rem 1rem; overflow-y: auto; max-width: 850px; margin: 0 auto; width: 100%; }
         .seccion-header { margin-bottom: 1.5rem; border-bottom: 2px solid var(--border); padding-bottom: 1rem; }
         .card-leccion { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; margin-bottom: 1.2rem; }
         .tag-disciplina { display: inline-block; background-color: #e2e8f0; color: #4a5568; font-size: 0.75rem; font-weight: bold; padding: 0.25rem 0.6rem; border-radius: 50px; text-transform: uppercase; margin-bottom: 0.5rem; }
 
         /* ==========================================================================
-           5. SOLUCIÓN COMPLETA AL DISEÑO RESPONSIVO (MÓVIL)
+           5. ADAPTACIÓN DISPOSITIVOS MÓVILES
            ========================================================================== */
         @media (max-width: 1024px) { 
             .seccion-app { 
                 flex-direction: column; 
-                height: calc(100vh - 65px);
+                flex: 1 1 auto;
+                height: auto; 
             } 
 
             .panel-header-tabs {
@@ -264,7 +265,7 @@
             }
 
             #tab-biblia {
-                display: block; /* Visible obligatoriamente en móvil */
+                display: block;
             }
 
             .tab-item {
@@ -277,21 +278,18 @@
                 white-space: nowrap;
             }
 
-            /* Evitamos que este contenedor distorsione la pantalla si está oculto */
             .side-panel-wrapper {
                 width: 100%;
                 min-width: 100%;
-                flex: 1;
+                flex: 1 1 auto;
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
             }
 
-            /* Corrección del corte a media pantalla: Ocupar el 100% real del espacio asignado */
             .bible-column, .study-column, .resources-column {
                 width: 100%;
-                height: 100%;
-                flex: 1;
+                flex: 1 1 auto;
                 padding: 1rem;
                 border: none;
                 overflow-y: auto;
@@ -350,7 +348,7 @@
             </div>
         </div>
 
-        <!-- CONTENEDOR DERECHO (Pestañas + Paneles de Trabajo) -->
+        <!-- CONTENEDOR DERECHO -->
         <div class="side-panel-wrapper" id="bloque-paneles-derechos">
             
             <div class="panel-header-tabs" id="barra-pestanas-global">
@@ -362,9 +360,9 @@
             <!-- Panel Estudio -->
             <div class="study-column" id="contenido-tab-estudio">
                 <div class="bloque-inductivo">
-                    <h3>1. Observación Básica</h3>
+                    <h3>1. Observation Básica</h3>
                     <p class="instruccion">¿Qué dice el texto? Anota palabras clave o verbos principales.</p>
-                    <textarea id="note-obs" placeholder="Ecribe detalles importantes aquí..."></textarea>
+                    <textarea id="note-obs" placeholder="Escribe detalles importantes aquí..."></textarea>
                 </div>
 
                 <div class="bloque-inductivo">
@@ -470,11 +468,8 @@
                 if (barraPestanas.parentElement !== vistaMesa) {
                     vistaMesa.insertBefore(barraPestanas, vistaMesa.firstChild);
                 }
-                if (esCargaInicial) {
-                    cambiarPestañaLateral('biblia');
-                } else {
-                    cambiarPestañaLateral(pestanaActivaMovil);
-                }
+                // Forzamos rigurosamente a quedarse en biblia al cargar o cambiar de libro
+                cambiarPestañaLateral(pestanaActivaMovil);
             }
         }
 
@@ -489,6 +484,7 @@
             if(destino === 'mesa') {
                 document.getElementById('btn-mesa').classList.add('active');
                 document.getElementById('vista-mesa').classList.remove('oculto');
+                pestanaActivaMovil = 'biblia'; // Reset por seguridad
                 ajustarLayoutPorDispositivo(true);
             } else if(destino === 'academia') {
                 document.getElementById('btn-academia').classList.add('active');
@@ -516,14 +512,13 @@
             if (window.innerWidth <= 1024) {
                 pestanaActivaMovil = pestañaSeleccionada;
                 
-                // MÓVIL: Ocultamos de raíz el bloque que no corresponda
                 if (pestañaSeleccionada === 'biblia') {
                     tabBiblia.classList.add('active');
                     conBiblia.classList.remove('oculto');
-                    bloqueDerecho.classList.add('oculto'); // Oculta paneles de estudio por completo
+                    bloqueDerecho.classList.add('oculto'); 
                 } else {
                     conBiblia.classList.add('oculto');
-                    bloqueDerecho.classList.remove('oculto'); // Muestra el contenedor de estudio
+                    bloqueDerecho.classList.remove('oculto'); 
                     
                     if (pestañaSeleccionada === 'estudio') {
                         tabEstudio.classList.add('active');
@@ -536,7 +531,6 @@
                     }
                 }
             } else {
-                // ESCRITORIO
                 conBiblia.classList.remove('oculto');
                 bloqueDerecho.classList.remove('oculto');
 
@@ -553,6 +547,9 @@
         }
 
         function cargarLibroDinamico(codigoLibro) {
+            // Forzamos que la pestaña activa en móvil regrese a la Biblia INMEDIATAMENTE al seleccionar un nuevo libro
+            pestanaActivaMovil = 'biblia';
+
             const scriptViejo = document.getElementById('script-libro-activo');
             if (scriptViejo) scriptViejo.remove();
 
@@ -586,8 +583,8 @@
             selectorCapitulo.value = primerCapitulo;
             filtrarCapituloEnPantalla(primerCapitulo);
             
-            // ELIMINADA la línea de cambio forzado a estudio inductivo en móviles.
-            // Ahora se mantendrá de forma fija en la pestaña de la Biblia para permitir la lectura continua.
+            // Re-evaluar el layout asegurando que mantenga la visualización del texto bíblico recién cargado
+            ajustarLayoutPorDispositivo(false);
         }
 
         function filtrarCapituloEnPantalla(numCapitulo) {
