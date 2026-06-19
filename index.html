@@ -6,7 +6,7 @@
     <title>Proyecto Berea - Estudio Inductivo Abierto</title>
     <style>
         /* ==========================================================================
-           1. VARIABLES Y ESTILOS BASE (DISEÑO LIMPIO Y ACCESIBLE)
+           1. VARIABLES Y ESTILOS BASE
            ========================================================================== */
         :root {
             --primary: #2c3e50;
@@ -98,7 +98,7 @@
         }
 
         /* ==========================================================================
-           3. ESTRUCTURA DE CONTENEDORES Y SECCIONES
+           3. ESTRUCTURA DE CONTENEDORES Y SECCIONES (ESCRITORIO)
            ========================================================================== */
         .seccion-app { 
             display: flex; 
@@ -110,7 +110,6 @@
             display: none !important; 
         }
 
-        /* COLUMNA BIBLIA */
         .bible-column { 
             flex: 1; 
             padding: 2rem; 
@@ -177,7 +176,6 @@
             margin-right: 0.6rem; 
         }
 
-        /* PANEL LATERAL ESCRITORIO */
         .side-panel-wrapper {
             width: 520px; 
             min-width: 480px;
@@ -212,6 +210,11 @@
             transition: all 0.15s ease;
         }
 
+        /* Ocultamos la pestaña de la Biblia por defecto en pantallas de computadora */
+        #tab-biblia {
+            display: none;
+        }
+
         .tab-item.active {
             background-color: var(--tab-active-bg);
             color: var(--primary);
@@ -230,7 +233,6 @@
             color: var(--primary);
         }
 
-        /* CONTENIDOS INTERNOS */
         .study-column { 
             flex: 1;
             padding: 1.5rem;
@@ -345,7 +347,7 @@
         .leccion-ejercicio { background-color: #f0fdf4; border: 1px dashed var(--accent); padding: 1rem; border-radius: 6px; margin-top: 1rem; }
 
         /* ==========================================================================
-           5. RE-DISEÑO DE PESTAÑAS EXCLUSIVO PARA MÓVILES (SOLUCIÓN FIJA DE CAPAS)
+           4. CORRECCIÓN ABSOLUTA PARA ENTORNOS MÓVILES (MESA DE ESTUDIO UNIFICADA)
            ========================================================================== */
         @media (max-width: 1024px) { 
             body {
@@ -357,42 +359,29 @@
                 position: relative;
                 flex: 1; 
                 overflow: hidden; 
+                display: flex;
+                flex-direction: column;
             } 
 
-            /* LA BARRA DE PESTAÑAS SE QUEDA SIEMPRE FIJA ARRIBA EN CAPA SUPREMA (z-index: 60) */
+            /* Contenedor unificado de pestañas en la cabecera del módulo */
             .panel-header-tabs {
-                position: absolute;
-                top: 0; left: 0; right: 0;
+                position: static;
                 height: 50px;
                 display: flex;
                 background-color: #edf2f7;
                 padding: 0.5rem 0.5rem 0 0.5rem;
-                z-index: 60; 
                 border-bottom: 1px solid var(--border);
                 align-items: flex-end;
                 gap: 4px;
                 width: 100%;
+                z-index: 50;
             }
 
-            /* Pestaña inyectada de la Biblia */
-            .panel-header-tabs::before {
-                content: "Texto Bíblico";
-                color: var(--primary);
-                background-color: var(--tab-active-bg);
-                border-top: 2px solid var(--accent);
-                font-weight: bold;
-                font-size: 0.72rem;
-                padding: 0.5rem 0.2rem;
-                border-radius: 5px 5px 0 0;
-                border-left: 1px solid var(--border);
-                border-right: 1px solid var(--border);
-                text-transform: uppercase;
-                letter-spacing: 0.3px;
-                cursor: pointer;
-                text-align: center;
+            /* Hacemos visible la pestaña de la Biblia únicamente en el móvil */
+            #tab-biblia {
+                display: block;
                 flex: 1;
-                margin-bottom: -1px;
-                order: 1;
+                text-align: center;
             }
 
             .tab-item {
@@ -405,17 +394,15 @@
                 white-space: nowrap;
             }
 
-            #tab-estudio { order: 2; }
-            #tab-recursos { order: 3; }
-
-            /* EL CONTENEDOR PADRE SE CONVIERTE EN CAPA DE FONDO */
+            /* Convertimos las columnas en paneles absolutos limpios */
             .side-panel-wrapper {
-                position: static; /* Rompe el aislamiento para heredar z-index individuales */
+                position: static;
                 width: 100%;
                 min-width: 100%;
+                flex: 1;
             }
 
-            /* LAS VENTANAS DE CONTENIDO EMPIEZAN ABAJO DE LA BARRA FIJA (top: 50px) */
+            /* El cuerpo donde se renderizan los datos ocupa todo el alto restante */
             .bible-column, .study-column, .resources-column {
                 position: absolute;
                 top: 50px; left: 0; right: 0; bottom: 0;
@@ -423,42 +410,7 @@
                 height: calc(100% - 50px);
                 margin: 0;
                 border: none;
-            }
-
-            /* --- CONTROL INTERNO DE VISIBILIDAD --- */
-            
-            /* Caso 1: Biblia Activa (Por Defecto) */
-            .bible-column {
-                z-index: 30; /* Al frente de los contenidos */
-                background-color: var(--panel-bg);
                 padding: 1rem;
-            }
-            .study-column, .resources-column {
-                z-index: 10; /* Ocultos atrás */
-            }
-
-            /* Caso 2: Pestaña Estudio Activa en tu JS */
-            .seccion-app:has(#tab-estudio.active) .study-column {
-                z-index: 40; /* Pasa al frente cubriendo la Biblia */
-                display: flex !important; /* Fuerza visualización si JS altera clases */
-            }
-            .seccion-app:has(#tab-estudio.active) .panel-header-tabs::before {
-                background-color: #e2e8f0;
-                color: #8a99ad;
-                border-top: none;
-                border-bottom: 1px solid var(--border);
-            }
-
-            /* Caso 3: Pestaña Recursos Activa en tu JS */
-            .seccion-app:has(#tab-recursos.active) .resources-column {
-                z-index: 40; /* Pasa al frente cubriendo la Biblia */
-                display: block !important;
-            }
-            .seccion-app:has(#tab-recursos.active) .panel-header-tabs::before {
-                background-color: #e2e8f0;
-                color: #8a99ad;
-                border-top: none;
-                border-bottom: 1px solid var(--border);
             }
         }
     </style>
@@ -482,7 +434,15 @@
 
     <div class="seccion-app" id="vista-mesa">
         
-        <div class="bible-column">
+        <!-- MÓDULO DE PESTAÑAS (Extraído fuera para control global en móviles) -->
+        <div class="panel-header-tabs" id="barra-pestanas-global">
+            <span class="tab-item active" id="tab-biblia" onclick="cambiarPestañaLateral('biblia')">Texto Bíblico</span>
+            <span class="tab-item inactive" id="tab-estudio" onclick="cambiarPestañaLateral('estudio')">Estudio Inductivo</span>
+            <span class="tab-item inactive" id="tab-recursos" onclick="cambiarPestañaLateral('recursos')">Recursos y Herramientas</span>
+        </div>
+
+        <!-- CONTENEDOR 1: LA BIBLIA -->
+        <div class="bible-column" id="contenido-tab-biblia">
             <div class="selector-box">
                 <label for="selector-libro">Libro:</label>
                 <select id="selector-libro" onchange="cargarLibroDinamico(this.value)">
@@ -511,14 +471,11 @@
             </div>
         </div>
 
+        <!-- CONTENEDOR 2: PANELES LATERALES -->
         <div class="side-panel-wrapper">
             
-            <div class="panel-header-tabs">
-                <span class="tab-item active" id="tab-estudio" onclick="cambiarPestañaLateral('estudio')">Estudio Inductivo</span>
-                <span class="tab-item inactive" id="tab-recursos" onclick="cambiarPestañaLateral('recursos')">Recursos y Herramientas</span>
-            </div>
-
-            <div class="study-column" id="contenido-tab-estudio">
+            <!-- CONTENIDO DE ESTUDIO INDUCTIVO -->
+            <div class="study-column oculto" id="contenido-tab-estudio">
                 <div class="bloque-inductivo">
                     <h3>1. Observación Básica</h3>
                     <p class="instruccion">¿Qué dice el texto? Anota palabras clave, contrastes y verbos principales.</p>
@@ -532,7 +489,7 @@
                 </div>
 
                 <div class="bloque-inductivo">
-                    <h3>3. Application Personal</h3>
+                    <h3>3. Aplicación Personal</h3>
                     <p class="instruccion">¿Cómo responde mi vida ante esta verdad?</p>
                     
                     <label>¿Qué me enseña acerca de Dios?</label>
@@ -545,6 +502,7 @@
                 <button class="btn-save" onclick="guardarEstudio()">Guardar Notas de Este Libro</button>
             </div>
 
+            <!-- CONTENIDO DE RECURSOS EXEGÉTICOS -->
             <div class="resources-column oculto" id="contenido-tab-recursos">
                 <p class="instruccion">Haz clic sobre un versículo a la izquierda para activar comentarios exegéticos y diccionarios Strong.</p>
                 
@@ -557,6 +515,7 @@
 
     </div>
 
+    <!-- SECCIONES DE ACADEMIA Y NOSOTROS -->
     <div class="seccion-app oculto" id="vista-academia">
         <div class="container-lectura">
             <div class="seccion-header">
@@ -573,63 +532,48 @@
                 <h2>El Corazón de Proyecto Berea</h2>
                 <p class="seccion-subtitle">"Escudriñando diariamente las Escrituras" — Hechos 17:11</p>
             </div>
-            
             <div class="card-leccion" style="border-left: 4px solid var(--accent);">
-                <h3 style="margin-bottom: 0.5rem;">🎯 Nuestra Misión</h3>
-                <p style="line-height: 1.6; font-size: 1.05rem; color: #4a5568;">
-                    Equipar y dignificar el ministerio de los pastores y líderes locales en toda América Latina que no tienen acceso a una educación teológica formal o a costosos programas de estudio, proveyendo herramientas de análisis bíblico inductivo de alta calidad, 100% gratuitas, libres de publicidad y accesibles desde cualquier dispositivo.
-                </p>
-            </div>
-
-            <div class="card-leccion" style="border-left: 4px solid var(--primary);">
-                <h3 style="margin-bottom: 0.5rem;">👁️ Nuestra Visión</h3>
-                <p style="line-height: 1.6; font-size: 1.05rem; color: #4a5568;">
-                    Ver una iglesia hispanohablante profundamente arraigada en las Escrituras, donde la falta de recursos económicos nunca vuelva a ser una barrera para estudiar, interpretar con precisión exegética y proclamar fielmente la Palabra de Dios.
+                <h3>🎯 Nuestra Misión</h3>
+                <p style="line-height: 1.6; font-size: 1.05rem; color: #4a5568; margin-top:0.5rem;">
+                    Equipar y dignificar el ministerio de los pastores y líderes locales en toda América Latina que no tienen acceso a una educación teológica formal.
                 </p>
             </div>
         </div>
     </div>
 
     <script>
-        /* ACADEMIA BASE */
         window.onload = function() {
             const contenedorLecciones = document.getElementById('contenedor-lecciones');
-            
             if(contenedorLecciones && typeof leccionesTeologicas !== 'undefined') {
                 let htmlLecciones = "";
-                
                 leccionesTeologicas.forEach(lec => {
                     htmlLecciones += `
                         <div class="card-leccion">
                             <span class="tag-disciplina">${lec.disciplina}</span>
                             <h3 class="leccion-titulo">${lec.titulo}</h3>
                             <p><strong>Concepto Central:</strong> ${lec.concepto}</p>
-                            <div class="leccion-bloque">
-                                <p class="leccion-meta">Ejemplo:</p>
-                                <p>${lec.ejemplo}</p>
-                            </div>
-                            <div class="leccion-ejercicio">
-                                <p class="leccion-meta">Ejercicio práctico:</p>
-                                <p>${lec.ejercicio}</p>
-                            </div>
                         </div>
                     `;
                 });
                 contenedorLecciones.innerHTML = htmlLecciones;
             }
-
-            // DETECTOR EN MÓVIL PARA LA PESTAÑA DE LA BIBLIA
-            const pestanaContenedor = document.querySelector('.panel-header-tabs');
-            if(pestanaContenedor) {
-                pestanaContenedor.addEventListener('click', function(e) {
-                    if (window.innerWidth <= 1024 && e.offsetX < (pestanaContenedor.offsetWidth / 3)) {
-                        // Forzamos el estado desactivado de los botones originales para que la Biblia pase al frente
-                        document.getElementById('tab-estudio').className = "tab-item inactive";
-                        document.getElementById('tab-recursos').className = "tab-item inactive";
-                    }
-                });
-            }
+            
+            // Forzar inicialización limpia según el tamaño de la pantalla
+            ajustarLayoutPorDispositivo();
         };
+
+        window.onresize = ajustarLayoutPorDispositivo;
+
+        function ajustarLayoutPorDispositivo() {
+            if (window.innerWidth > 1024) {
+                // Modo Escritorio: Biblia a la izquierda fija, paneles a la derecha con pestañas
+                document.getElementById('contenido-tab-biblia').classList.remove('oculto');
+                cambiarPestañaLateral('estudio');
+            } else {
+                // Modo Móvil: Se comporta enteramente como pestañas separadas
+                cambiarPestañaLateral('biblia');
+            }
+        }
 
         function navegarA(destino) {
             document.getElementById('btn-mesa').classList.remove('active');
@@ -642,6 +586,7 @@
             if(destino === 'mesa') {
                 document.getElementById('btn-mesa').classList.add('active');
                 document.getElementById('vista-mesa').classList.remove('oculto');
+                ajustarLayoutPorDispositivo();
             } else if(destino === 'academia') {
                 document.getElementById('btn-academia').classList.add('active');
                 document.getElementById('vista-academia').classList.remove('oculto');
@@ -651,22 +596,51 @@
             }
         }
 
+        /* CONTROLADOR INTEGRAL DE PESTAÑAS (SOPORTA ESCRITORIO Y MÓVIL) */
         function cambiarPestañaLateral(pestañaSeleccionada) {
+            const tabBiblia = document.getElementById('tab-biblia');
             const tabEstudio = document.getElementById('tab-estudio');
             const tabRecursos = document.getElementById('tab-recursos');
-            const contenedorEstudio = document.getElementById('contenido-tab-estudio');
-            const contenedorRecursos = document.getElementById('contenido-tab-recursos');
 
-            if (pestañaSeleccionada === 'estudio') {
-                tabEstudio.className = "tab-item active";
-                tabRecursos.className = "tab-item inactive";
-                contenedorEstudio.classList.remove('oculto');
-                contenedorRecursos.classList.add('oculto');
-            } else if (pestañaSeleccionada === 'recursos') {
-                tabEstudio.className = "tab-item inactive";
-                tabRecursos.className = "tab-item active";
-                contenedorEstudio.classList.add('oculto');
-                contenedorRecursos.classList.remove('oculto');
+            const conBiblia = document.getElementById('contenido-tab-biblia');
+            const conEstudio = document.getElementById('contenido-tab-estudio');
+            const conRecursos = document.getElementById('contenido-tab-recursos');
+
+            // 1. Limpieza total de clases de botones
+            tabBiblia.className = "tab-item inactive";
+            tabEstudio.className = "tab-item inactive";
+            tabRecursos.className = "tab-item inactive";
+
+            if (window.innerWidth <= 1024) {
+                // LÓGICA EXCLUSIVA PARA MÓVIL (Intercambio mutuo de 3 pantallas independientes)
+                conBiblia.classList.add('oculto');
+                conEstudio.classList.add('oculto');
+                conRecursos.classList.add('oculto');
+
+                if (pestañaSeleccionada === 'biblia') {
+                    tabBiblia.className = "tab-item active";
+                    conBiblia.classList.remove('oculto');
+                } else if (pestañaSeleccionada === 'estudio') {
+                    tabEstudio.className = "tab-item active";
+                    conEstudio.classList.remove('oculto');
+                } else if (pestañaSeleccionada === 'recursos') {
+                    tabRecursos.className = "tab-item active";
+                    conRecursos.classList.remove('oculto');
+                }
+            } else {
+                // LÓGICA PARA ESCRITORIO (Biblia fija a la izquierda, pestañas derechas alternan)
+                conBiblia.classList.remove('oculto'); 
+
+                if (pestañaSeleccionada === 'recursos') {
+                    tabRecursos.className = "tab-item active";
+                    conEstudio.classList.add('oculto');
+                    conRecursos.classList.remove('oculto');
+                } else {
+                    // Por defecto o al marcar estudio
+                    tabEstudio.className = "tab-item active";
+                    conEstudio.classList.remove('oculto');
+                    conRecursos.classList.add('oculto');
+                }
             }
         }
 
@@ -703,12 +677,8 @@
             selectorCapitulo.value = primerCapitulo;
             filtrarCapituloEnPantalla(primerCapitulo);
 
-            if(window.innerWidth <= 1024) {
-                document.getElementById('tab-estudio').className = "tab-item inactive";
-                document.getElementById('tab-recursos').className = "tab-item inactive";
-            } else {
-                cambiarPestañaLateral('estudio');
-            }
+            // Al cargar libro nuevo, llevamos al usuario al Texto Bíblico si está en el celular
+            ajustarLayoutPorDispositivo();
         }
 
         function filtrarCapituloEnPantalla(numCapitulo) {
