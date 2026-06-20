@@ -104,7 +104,7 @@
         }
 
         /* ==========================================================================
-           3. ESTRUCTURA DE CONTENEDORES (MESA DE ESTUDIO)
+           3. ESTRUCTURA DE CONTENEDORES MESA Y ACADEMIA
            ========================================================================== */
         .seccion-app { 
             display: flex; 
@@ -126,8 +126,8 @@
             flex-shrink: 0;
         }
 
-        #tab-biblia {
-            display: none; 
+        #tab-biblia, #tab-lectura-aca {
+            display: none; /* Ocultos en PC */
         }
 
         .tab-item {
@@ -154,7 +154,7 @@
             border-top: 2px solid var(--accent);
         }
 
-        /* COLUMNA IZQUIERDA: Biblia */
+        /* COLUMNA IZQUIERDA: Desarrollo (Biblia o Lección de Academia) */
         .bible-column { 
             flex: 1; 
             padding: 2rem; 
@@ -163,9 +163,9 @@
             background-color: var(--panel-bg); 
         }
 
-        /* COLUMNA DERECHA */
+        /* COLUMNA DERECHA: Paneles de Control e Índices (600px) */
         .side-panel-wrapper {
-            width: 650px; 
+            width: 600px; 
             min-width: 480px;
             display: flex;
             flex-direction: column;
@@ -184,7 +184,7 @@
         }
 
         /* ==========================================================================
-           4. COMPONENTES INTERNOS
+           4. COMPONENTES INTERNOS Y ACADEMIA
            ========================================================================== */
         .selector-box {
             background-color: #f7fafc;
@@ -221,6 +221,12 @@
             background: white; padding: 1.2rem; border-radius: 6px;
             border: 1px solid var(--border); margin-bottom: 1.5rem;
         }
+           .bloque-inductivo p {
+            margin-bottom: 1.2rem; 
+        }
+           .bloque-inductivo p:last-child {
+            margin-bottom: 0; 
+        }
 
         h3 { color: var(--primary); margin-bottom: 0.5rem; font-size: 1.1rem; border-bottom: 2px solid #edf2f7; padding-bottom: 0.3rem; }
         .instruccion { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.4; }
@@ -238,10 +244,34 @@
         .btn-save:hover { background-color: #12826c; }
         .dict-box { background-color: #f7fafc; border-left: 4px solid var(--accent); padding: 1rem; margin-top: 0.5rem; border-radius: 0 4px 4px 0; border: 1px solid var(--border); }
 
-        .container-lectura { flex: 1; padding: 2rem 1rem; overflow-y: auto; max-width: 850px; margin: 0 auto; width: 100%; }
-        .seccion-header { margin-bottom: 1.5rem; border-bottom: 2px solid var(--border); padding-bottom: 1rem; }
-        .card-leccion { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; margin-bottom: 1.2rem; }
+        .card-leccion { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; margin-bottom: 1.2rem; text-align: left; }
         .tag-disciplina { display: inline-block; background-color: #e2e8f0; color: #4a5568; font-size: 0.75rem; font-weight: bold; padding: 0.25rem 0.6rem; border-radius: 50px; text-transform: uppercase; margin-bottom: 0.5rem; }
+
+        /* Estilos para los botones del Índice Temático */
+        .item-indice-academia {
+            padding: 0.75rem 1rem;
+            background-color: #f7fafc;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .item-indice-academia:hover {
+            background-color: #e6fffa;
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .item-indice-academia.active {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
 
         /* ==========================================================================
            5. ADAPTACIÓN DISPOSITIVOS MÓVILES
@@ -264,7 +294,7 @@
                 flex-shrink: 0;
             }
 
-            #tab-biblia {
+            #tab-biblia, #tab-lectura-aca {
                 display: block;
             }
 
@@ -300,6 +330,7 @@
 </head>
 <body>
 
+    <!-- BARRA DE NAVEGACIÓN SUPERIOR -->
     <nav>
         <div class="nav-logo">
             <span>📜</span> 
@@ -315,10 +346,10 @@
         </div>
     </nav>
 
-    <!-- MESA DE ESTUDIO PRINCIPAL -->
+    <!-- 1. MESA DE ESTUDIO PRINCIPAL -->
     <div class="seccion-app" id="vista-mesa">
         
-        <!-- CONTENEDOR DE LA BIBLIA -->
+        <!-- Columna Izquierda: Biblia -->
         <div class="bible-column" id="contenido-tab-biblia">
             <div class="selector-box">
                 <label for="selector-libro">Libro:</label>
@@ -348,7 +379,7 @@
             </div>
         </div>
 
-        <!-- CONTENEDOR DERECHO -->
+        <!-- Columna Derecha: Pestañas de la Mesa -->
         <div class="side-panel-wrapper" id="bloque-paneles-derechos">
             
             <div class="panel-header-tabs" id="barra-pestanas-global">
@@ -360,7 +391,7 @@
             <!-- Panel Estudio -->
             <div class="study-column" id="contenido-tab-estudio">
                 <div class="bloque-inductivo">
-                    <h3>1. Observation Básica</h3>
+                    <h3>1. Observación Básica</h3>
                     <p class="instruccion">¿Qué dice el texto? Anota palabras clave o verbos principales.</p>
                     <textarea id="note-obs" placeholder="Escribe detalles importantes aquí..."></textarea>
                 </div>
@@ -391,51 +422,70 @@
                     <p style="color: var(--text-muted); font-style: italic; text-align: center; padding: 3rem 0;">Ningún versículo seleccionado.</p>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- OTRAS SECCIONES -->
+    <!-- 2. APARTADO ACADEMIA (CONCEPTO RAÍZ + INTERFAZ DINÁMICA DE TEMAS) -->
     <div class="seccion-app oculto" id="vista-academia">
-        <div class="container-lectura">
-            <div class="seccion-header">
-                <h2>Capacitación Pastoral Básica</h2>
+        
+        <!-- Columna Izquierda: Pizarra de Lectura (Concepto Raíz o Desarrollo de Tema) -->
+        <div class="bible-column" id="contenido-aca-desarrollo">
+            <div id="pantalla-clase-activa">
+                <div class="seccion-header">
+                    <h2>Capacitación Pastoral Básica</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.5rem;">
+                        Selecciona cualquier materia teológica de la derecha para cargar su lista de temas.
+                    </p>
+                </div>
+                <div style="text-align: center; color: var(--text-muted); padding: 4rem 1rem; font-style: italic;">
+                    ← Esperando selección de disciplina teológica.
+                </div>
             </div>
-            <div id="contenedor-lecciones"></div>
+        </div>
+
+        <!-- Columna Derecha: Índices Cargados Dinámicamente -->
+        <div class="side-panel-wrapper" id="bloque-paneles-academia">
+            
+            <div class="panel-header-tabs" id="barra-pestanas-academia">
+                <span class="tab-item" id="tab-lectura-aca" onclick="cambiarPestañaAcademia('lectura')">Ver Clase</span>
+                <span class="tab-item" id="tab-hermeneutica" onclick="cargarMateriaDinamica('hermeneutica')">Hermenéutica</span>
+                <span class="tab-item" id="tab-exegesis" onclick="cargarMateriaDinamica('exegesis')">Exégesis</span>
+                <span class="tab-item" id="tab-homiletica" onclick="cargarMateriaDinamica('homiletica')">Homilética</span>
+            </div>
+
+            <!-- Contenedor Único para el Índice de Temas Activo -->
+            <div class="study-column" id="contenedor-indice-materia">
+                <p style="color: var(--text-muted); text-align: center; padding-top: 2rem; font-style: italic;">
+                    Haz clic en una pestaña para ver sus temas.
+                </p>
+            </div>
         </div>
     </div>
 
+    <!-- 3. APARTADO SOBRE NOSOTROS -->
     <div class="seccion-app oculto" id="vista-nosotros">
-        <div class="container-lectura" style="max-width: 700px;">
-            <div class="seccion-header" style="text-align: center;">
+        <div class="container-lectura" style="max-width: 700px; padding: 2rem; margin: 0 auto; overflow-y: auto;">
+            <div class="seccion-header" style="text-align: center; margin-bottom: 2rem;">
                 <h2>El Corazón de Proyecto Berea</h2>
             </div>
             <div class="card-leccion">
                 <h3>🎯 Nuestra Misión</h3>
-                <p>Equipar y dignificar el ministerio de los pastores y líderes locales proveyendo herramientas de análisis bíblico inductivo gratuitas.</p>
+                <br>
+                <p>Equipar y dignificar el ministerio de los pastores y líderes locales proveyendo herramientas de análisis bíblico inductivo de acceso abierto totalmente gratuitas.</p>
             </div>
         </div>
     </div>
 
+    <!-- ==========================================================================
+       6. SCRIPTS LÓGICOS CONSOLIDADOS
+       ========================================================================== */ -->
     <script>
         let anchoUltimaVentana = window.innerWidth;
         let pestanaActivaMovil = 'biblia'; 
+        let materiaActivaGlobal = 'hermeneutica';
+        let viewAcademiaMovil = 'hermeneutica';
 
         window.onload = function() {
-            const contenedorLecciones = document.getElementById('contenedor-lecciones');
-            if(contenedorLecciones && typeof leccionesTeologicas !== 'undefined') {
-                let htmlLecciones = "";
-                leccionesTeologicas.forEach(lec => {
-                    htmlLecciones += `
-                        <div class="card-leccion">
-                            <span class="tag-disciplina">${lec.disciplina}</span>
-                            <h3>${lec.titulo}</h3>
-                            <p><strong>Concepto:</strong> ${lec.concepto}</p>
-                        </div>
-                    `;
-                });
-                contenedorLecciones.innerHTML = htmlLecciones;
-            }
             ajustarLayoutPorDispositivo(true);
         };
 
@@ -446,30 +496,140 @@
             }
         };
 
+        // CARGA DINÁMICA DE MATERIAS DE LA ACADEMIA (.JS AUTOMÁTICO)
+        function cargarMateriaDinamica(nombreMateria) {
+            materiaActivaGlobal = nombreMateria;
+            if (window.innerWidth <= 1024) {
+                viewAcademiaMovil = nombreMateria;
+            }
+
+            // Remueve el script cargado anteriormente para evitar consumo en memoria
+            const scriptViejoMateria = document.getElementById('script-materia-activa');
+            if (scriptViejoMateria) scriptViejoMateria.remove();
+
+            const nuevoScriptMateria = document.createElement('script');
+            nuevoScriptMateria.id = 'script-materia-activa';
+            nuevoScriptMateria.src = `academia/${nombreMateria}.js`;
+
+            nuevoScriptMateria.onload = function() {
+                if (typeof DatosMateriaActiva !== 'undefined') {
+                    renderizarIndiceMateria();
+                }
+            };
+            document.body.appendChild(nuevoScriptMateria);
+        }
+
+        // REDISEÑADA: Inyecta el concepto raíz inmediatamente al cargar la materia
+        function renderizarIndiceMateria() {
+            // Sincronizar clases visuales de las pestañas
+            document.getElementById('tab-hermeneutica').classList.remove('active');
+            document.getElementById('tab-exegesis').classList.remove('active');
+            document.getElementById('tab-homiletica').classList.remove('active');
+            document.getElementById('tab-lectura-aca').classList.remove('active');
+
+            const pestañaElemento = document.getElementById(`tab-${materiaActivaGlobal}`);
+            if (pestañaElemento) pestañaElemento.classList.add('active');
+
+            // 1. INYECTAR EL CONCEPTO DE RAÍZ EN LA PIZARRA IZQUIERDA
+            const contenedorPizarra = document.getElementById('pantalla-clase-activa');
+            contenedorPizarra.innerHTML = `
+                <div class="seccion-header">
+                    <span class="tag-disciplina">Concepto Fundamental</span>
+                    <h2 style="font-size: 1.8rem; color: var(--primary); margin-top:0.3rem;">¿Qué es la ${DatosMateriaActiva.materia}?</h2>
+                </div>
+                <div class="bloque-inductivo" style="margin-top: 1.5rem; line-height: 1.7; font-size: 1.1rem; border-left: 5px solid var(--primary); background-color: #fff;">
+                    ${DatosMateriaActiva.descripcion}
+                </div>
+                <p style="text-align: center; color: var(--text-muted); margin-top: 2rem; font-style: italic;">
+                    👉 Selecciona un tema del índice en el panel derecho para desarmar los pasos de estudio.
+                </p>
+            `;
+
+            // 2. CONSTRUIR EL ÍNDICE DE TEMAS EN EL PANEL DERECHO
+            const contenedorIndice = document.getElementById('contenedor-indice-materia');
+            let htmlIndice = `<h3 style="margin-bottom: 1rem;">Temas de ${DatosMateriaActiva.materia}</h3>`;
+            
+            DatosMateriaActiva.temas.forEach((tema, index) => {
+                htmlIndice += `
+                    <div class="item-indice-academia" id="btn-tema-${index}" onclick="desplegarLecciónEnPizarra(${index})">
+                        <span>📘 ${tema.titulo}</span>
+                        <span style="font-size:0.75rem; color:var(--accent);">Leer →</span>
+                    </div>
+                `;
+            });
+
+            contenedorIndice.innerHTML = htmlIndice;
+            cambiarPestañaAcademia(materiaActivaGlobal);
+        }
+
+        function desplegarLecciónEnPizarra(index) {
+            if(typeof DatosMateriaActiva === 'undefined' || !DatosMateriaActiva.temas[index]) return;
+            
+            const tema = DatosMateriaActiva.temas[index];
+            const contenedorPizarra = document.getElementById('pantalla-clase-activa');
+            
+            // Inyección limpia del desarrollo teológico en el contenedor izquierdo
+            contenedorPizarra.innerHTML = `
+                <div class="seccion-header">
+                    <span class="tag-disciplina">${DatosMateriaActiva.materia}</span>
+                    <h2 style="font-size: 1.8rem; color: var(--primary); margin-top:0.3rem;">${tema.titulo}</h2>
+                </div>
+                <div class="card-leccion" style="border-left: 4px solid var(--accent); padding: 1.5rem; background:#fff; margin-top: 1rem;">
+                    <h3 style="border:none; margin-bottom:0.8rem;">Concepto Central:</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.6; color: var(--text);">${tema.concepto}</p>
+                </div>
+                <div class="bloque-inductivo" style="margin-top: 1.5rem; line-height: 1.7; font-size: 1.05rem;">
+                    ${tema.desarrollo}
+                </div>
+            `;
+
+            // Resaltar elemento activo del índice
+            const itemsIndice = document.querySelectorAll('.item-indice-academia');
+            itemsIndice.forEach(it => it.classList.remove('active'));
+            const btnActivo = document.getElementById(`btn-tema-${index}`);
+            if (btnActivo) btnActivo.classList.add('active');
+            
+            // Forzar pestaña de lectura al instante si está en pantalla táctil móvil
+            if (window.innerWidth <= 1024) {
+                cambiarPestañaAcademia('lectura');
+            }
+        }
+
+        // CONTROL RESPONSIVO DE DISPOSITIVOS
         function ajustarLayoutPorDispositivo(esCargaInicial) {
-            const barraPestanas = document.getElementById('barra-pestanas-global');
+            const barraPestanasMesa = document.getElementById('barra-pestanas-global');
+            const barraPestanasAca = document.getElementById('barra-pestanas-academia');
             const vistaMesa = document.getElementById('vista-mesa');
+            const vistaAcademia = document.getElementById('vista-academia');
             
             if (window.innerWidth > 1024) {
-                const panelDerecho = document.getElementById('bloque-paneles-derechos');
-                if (barraPestanas.parentElement !== panelDerecho) {
-                    panelDerecho.insertBefore(barraPestanas, panelDerecho.firstChild);
+                const panelDerechoMesa = document.getElementById('bloque-paneles-derechos');
+                if (barraPestanasMesa.parentElement !== panelDerechoMesa) {
+                    panelDerechoMesa.insertBefore(barraPestanasMesa, panelDerechoMesa.firstChild);
                 }
                 document.getElementById('bloque-paneles-derechos').classList.remove('oculto');
                 document.getElementById('contenido-tab-biblia').classList.remove('oculto');
                 
-                const conRecursos = document.getElementById('contenido-tab-recursos');
-                if (conRecursos.classList.contains('oculto')) {
-                    cambiarPestañaLateral('estudio');
-                } else {
-                    cambiarPestañaLateral('recursos');
+                const panelDerechoAca = document.getElementById('bloque-paneles-academia');
+                if (barraPestanasAca.parentElement !== panelDerechoAca) {
+                    panelDerechoAca.insertBefore(barraPestanasAca, panelDerechoAca.firstChild);
+                }
+                document.getElementById('contenido-aca-desarrollo').classList.remove('oculto');
+
+                cambiarPestañaLateral('estudio');
+                if(esCargaInicial && vistaAcademia.classList.contains('oculto') === false) {
+                    cargarMateriaDinamica('hermeneutica');
                 }
             } else {
-                if (barraPestanas.parentElement !== vistaMesa) {
-                    vistaMesa.insertBefore(barraPestanas, vistaMesa.firstChild);
+                if (barraPestanasMesa.parentElement !== vistaMesa) {
+                    vistaMesa.insertBefore(barraPestanasMesa, vistaMesa.firstChild);
                 }
-                // Forzamos rigurosamente a quedarse en biblia al cargar o cambiar de libro
+                if (barraPestanasAca.parentElement !== vistaAcademia) {
+                    vistaAcademia.insertBefore(barraPestanasAca, vistaAcademia.firstChild);
+                }
+                
                 cambiarPestañaLateral(pestanaActivaMovil);
+                cambiarPestañaAcademia(viewAcademiaMovil);
             }
         }
 
@@ -484,17 +644,19 @@
             if(destino === 'mesa') {
                 document.getElementById('btn-mesa').classList.add('active');
                 document.getElementById('vista-mesa').classList.remove('oculto');
-                pestanaActivaMovil = 'biblia'; // Reset por seguridad
                 ajustarLayoutPorDispositivo(true);
             } else if(destino === 'academia') {
                 document.getElementById('btn-academia').classList.add('active');
                 document.getElementById('vista-academia').classList.remove('oculto');
+                cargarMateriaDinamica(materiaActivaGlobal);
+                ajustarLayoutPorDispositivo(true);
             } else if(destino === 'nosotros') {
                 document.getElementById('btn-nosotros').classList.add('active');
                 document.getElementById('vista-nosotros').classList.remove('oculto');
             }
         }
 
+        // CONTROL PESTAÑAS MESA
         function cambiarPestañaLateral(pestañaSeleccionada) {
             const tabBiblia = document.getElementById('tab-biblia');
             const tabEstudio = document.getElementById('tab-estudio');
@@ -511,7 +673,6 @@
 
             if (window.innerWidth <= 1024) {
                 pestanaActivaMovil = pestañaSeleccionada;
-                
                 if (pestañaSeleccionada === 'biblia') {
                     tabBiblia.classList.add('active');
                     conBiblia.classList.remove('oculto');
@@ -519,7 +680,6 @@
                 } else {
                     conBiblia.classList.add('oculto');
                     bloqueDerecho.classList.remove('oculto'); 
-                    
                     if (pestañaSeleccionada === 'estudio') {
                         tabEstudio.classList.add('active');
                         conEstudio.classList.remove('oculto');
@@ -533,7 +693,6 @@
             } else {
                 conBiblia.classList.remove('oculto');
                 bloqueDerecho.classList.remove('oculto');
-
                 if (pestañaSeleccionada === 'recursos') {
                     tabRecursos.classList.add('active');
                     conEstudio.classList.add('oculto');
@@ -546,10 +705,47 @@
             }
         }
 
-        function cargarLibroDinamico(codigoLibro) {
-            // Forzamos que la pestaña activa en móvil regrese a la Biblia INMEDIATAMENTE al seleccionar un nuevo libro
-            pestanaActivaMovil = 'biblia';
+        // CONTROL PESTAÑAS ACADEMIA
+        function cambiarPestañaAcademia(pestañaSeleccionada) {
+            const tabLect = document.getElementById('tab-lectura-aca');
+            const tabHerm = document.getElementById('tab-hermeneutica');
+            const tabExeg = document.getElementById('tab-exegesis');
+            const tabHomi = document.getElementById('tab-homiletica');
+            
+            const conDesarrollo = document.getElementById('contenido-aca-desarrollo');
+            const bloqueAcademia = document.getElementById('bloque-paneles-academia');
 
+            tabLect.classList.remove('active');
+            tabHerm.classList.remove('active');
+            tabExeg.classList.remove('active');
+            tabHomi.classList.remove('active');
+
+            if (window.innerWidth <= 1024) {
+                viewAcademiaMovil = pestañaSeleccionada;
+                
+                if (pestañaSeleccionada === 'lectura') {
+                    tabLect.classList.add('active');
+                    conDesarrollo.classList.remove('oculto');
+                    bloqueAcademia.classList.add('oculto');
+                } else {
+                    conDesarrollo.classList.add('oculto');
+                    bloqueAcademia.classList.remove('oculto');
+                    
+                    const tabActiva = document.getElementById(`tab-${pestañaSeleccionada}`);
+                    if (tabActiva) tabActiva.classList.add('active');
+                }
+            } else {
+                conDesarrollo.classList.remove('oculto');
+                bloqueAcademia.classList.remove('oculto');
+                
+                const tabActiva = document.getElementById(`tab-${pestañaSeleccionada}`);
+                if (tabActiva) tabActiva.classList.add('active');
+            }
+        }
+
+        // CARGA DINÁMICA DE LIBROS MESA
+        function cargarLibroDinamico(codigoLibro) {
+            pestanaActivaMovil = 'biblia';
             const scriptViejo = document.getElementById('script-libro-activo');
             if (scriptViejo) scriptViejo.remove();
 
@@ -570,8 +766,8 @@
             document.getElementById('label-capitulo').classList.remove('oculto');
             const selectorCapitulo = document.getElementById('selector-capitulo');
             selectorCapitulo.classList.remove('oculto');
-
             selectorCapitulo.innerHTML = "";
+            
             DatosLibroActual.capitulos.forEach(cap => {
                 const opcion = document.createElement('option');
                 opcion.value = cap.capitulo;
@@ -582,28 +778,18 @@
             const primerCapitulo = DatosLibroActual.capitulos[0].capitulo;
             selectorCapitulo.value = primerCapitulo;
             filtrarCapituloEnPantalla(primerCapitulo);
-            
-            // Re-evaluar el layout asegurando que mantenga la visualización del texto bíblico recién cargado
             ajustarLayoutPorDispositivo(false);
         }
 
         function filtrarCapituloEnPantalla(numCapitulo) {
             numCapitulo = parseInt(numCapitulo);
             const contenedor = document.getElementById('contenedor-biblia');
-            
-            let htmlBiblia = `
-                <h2>${DatosLibroActual.titulo}</h2>
-                <div class="intro-box"><strong>Introducción:</strong> ${DatosLibroActual.introduccion}</div>
-            `;
+            let htmlBiblia = `<h2>${DatosLibroActual.titulo}</h2><div class="intro-box"><strong>Introducción:</strong> ${DatosLibroActual.introduccion}</div>`;
 
             const capObj = DatosLibroActual.capitulos.find(c => c.capitulo === numCapitulo);
             if (capObj) {
                 capObj.versiculos.forEach(v => {
-                    htmlBiblia += `
-                        <div class="verse" onclick="mostrarRecursosVersiculo(${capObj.capitulo}, ${v.num})">
-                            <span class="v-num">${v.num}</span>${v.texto}
-                        </div>
-                    `;
+                    htmlBiblia += `<div class="verse" onclick="mostrarRecursosVersiculo(${capObj.capitulo}, ${v.num})"><span class="v-num">${v.num}</span>${v.texto}</div>`;
                 });
             }
             contenedor.innerHTML = htmlBiblia;
@@ -612,7 +798,6 @@
         function mostrarRecursosVersiculo(numCapitulo, numVersiculo) {
             const capituloObj = DatosLibroActual.capitulos.find(c => c.capitulo === numCapitulo);
             const vEncontrado = capituloObj.versiculos.find(v => v.num === numVersiculo);
-            
             cambiarPestañaLateral('recursos');
 
             const toolBox = document.getElementById('interpretation-tool');
@@ -648,7 +833,7 @@
                 aplicacionVida: document.getElementById('note-apl-2').value
             };
             localStorage.setItem(`berea_notas_${libroActivo}`, JSON.stringify(notas));
-            alert("Notas guardadas correctamente.");
+            alert("Notas de estudio guardadas de forma local.");
         }
 
         function cargarNotasGuardadas(codigoLibro) {
@@ -669,6 +854,5 @@
             }
         }
     </script>
-    <script src="capacitacion.js"></script>
 </body>
 </html>
