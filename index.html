@@ -336,8 +336,9 @@
         <div class="side-panel-wrapper" id="bloque-paneles-derechos">
             <div class="panel-header-tabs" id="barra-pestanas-global">
                 <span class="tab-item" id="tab-biblia" onclick="cambiarPestañaLateral('biblia')">Texto Bíblico</span>
-                <span class="tab-item active" id="tab-recursos" onclick="cambiarPestañaLateral('recursos')">Recursos y Comentarios</span>
+                <span class="tab-item active" id="tab-recursos" onclick="cambiarPestañaLateral('recursos')">Recursos y Vocabulario</span>
             </div>
+
             <div class="resources-column" id="contenido-tab-recursos">
                 <div id="interpretation-tool">
                     <p style="color: var(--text-muted); font-style: italic; text-align: center; padding: 3rem 0;">Ningún versículo seleccionado. Haz clic sobre cualquier texto bíblico de la izquierda para desplegar sus herramientas de apoyo.</p>
@@ -385,7 +386,7 @@
                         <span class="tag-disciplina">Etapa 1: Observación</span><br><br>
                         <label id="lbl-obs-1">¿Quién actúa? Describe a los personajes y sus acciones clave:</label>
                         <textarea id="sermon-obs-1" placeholder="Ej: El autor enfatiza las demandas ministeriales..."></textarea>
-                        <label id="lbl-obs-2">¿Qué palabras o ideas se repiten in este pasaje?</label>
+                        <label id="lbl-obs-2">¿Qué palabras o ideas se repiten en este pasaje?</label>
                         <textarea id="sermon-obs-2" placeholder="Ej: Se repiten llamados a la piedad y la doctrina..."></textarea>
                     </div>
                     <div style="display:flex; gap:10px;"><button class="btn-nav-step" onclick="navegarPasoConstructor(1, 2)">Siguiente →</button><button class="btn-nav-step" style="background:#4a5568;" onclick="guardarBorradorManual()">💾</button></div>
@@ -431,6 +432,10 @@
     <div class="seccion-app oculto" id="vista-academia">
         <div class="bible-column" id="contenido-aca-desarrollo">
             <div id="pantalla-clase-activa">
+                <div class="seccion-header">
+                    <h2>Capacitación Pastoral Básica</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.5rem;">Selecciona cualquier materia teológica de la derecha para cargar su lista de temas.</p>
+                </div>
                 <div style="text-align: center; color: var(--text-muted); padding: 4rem 1rem; font-style: italic;">← Esperando selección de disciplina teológica.</div>
             </div>
         </div>
@@ -441,32 +446,29 @@
                 <span class="tab-item" id="tab-exegesis" onclick="cargarMateriaDinamica('exegesis')">Exégesis</span>
                 <span class="tab-item" id="tab-homiletica" onclick="cargarMateriaDinamica('homiletica')">Homilética</span>
             </div>
-            <div class="study-column" id="contenedor-indice-materia"></div>
+            <div class="study-column" id="contenedor-indice-materia">
+                <p style="color: var(--text-muted); text-align: center; padding-top: 2rem; font-style: italic;">Haz clic en una pestaña para ver sus temas.</p>
+            </div>
         </div>
     </div>
 
-<!-- ==========================================================================
-       4. APARTADO SOBRE NOSOTROS (MISIÓN Y VISIÓN)
-       ========================================================================== -->
     <div class="seccion-app oculto" id="vista-nosotros">
         <div class="container-lectura" style="max-width: 800px; padding: 2rem 1rem; margin: 0 auto; overflow-y: auto; height: 100%;">
             
-            <!-- TARJETA: MISIÓN -->
-            <div class="card-leccion" style="margin-bottom: 2rem; border-left: 5px solid var(--accent);">
-                <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--accent); border: none;">🎯 Misión</h3>
+            <div class="card-leccion" style="margin-bottom: 2rem; border-left: 5px solid var(--accent); background: white;">
+                <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--accent); border: none; padding-bottom: 0;">🎯 Misión</h3>
                 <p style="font-size: 1.05rem; line-height: 1.6; color: var(--text); margin-bottom: 1rem; font-weight: 500;">
                     Capacitar y equipar a la iglesia local a través de herramientas tecnológicas y un análisis bíblico riguroso, facilitando el acceso a un estudio exegético, doctrinal e histórico profundo de las Escrituras.
                 </p>
                 <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-muted);">
-                    El proyecto busca demoler la superficialidad espiritual y el intelectualismo secular, proveyendo a los maestros, pastores y creyentes un entorno digital donde el texto sagrado se estudie con precisión técnica (códigos Strong, vocabulario original y comentarios históricos) para forjar un discipulado maduro, robusto y aplicable a la realidad contemporánea.
+                    El proyecto busca demoler la superficialidad espiritual y el intelectualismo secular, proveyendo a los maestros, pastores y creyentes un entorno digital (como este backend blindado en JSON) donde el texto sagrado se estudie con precisión técnica (códigos Strong, vocabulario original y comentarios históricos) para forjar un discipulado maduro, robusto y aplicable a la realidad contemporánea.
                 </p>
             </div>
 
-            <!-- TARJETA: VISIÓN -->
-            <div class="card-leccion" style="border-left: 5px solid var(--primary);">
-                <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--primary); border: none;">🔭 Visión</h3>
+            <div class="card-leccion" style="border-left: 5px solid var(--primary); background: white;">
+                <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--primary); border: none; padding-bottom: 0;">🔭 Visión</h3>
                 <p style="font-size: 1.05rem; line-height: 1.6; color: var(--text); margin-bottom: 1rem; font-weight: 500;">
-                    Convertirse en la plataforma de referencia teológica y educativa para el desarrollo integral del creyente en el ámbito de habla hispana, levantando una generación de cristianos que manejen con precisión la Palabra de Verdad.
+                    Convertirse en la plataforma de referencia teológica y educativa para el desarrollo integral del creyente en el ámbito de habla hispana, levantando una generation de cristianos que manejen con precisión la Palabra de Verdad.
                 </p>
                 <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-muted);">
                     La visión proyecta una iglesia local sólida, donde el crecimiento no se mida por el ruido o el marketing masivo, sino por un avance equilibrado (siguiendo el modelo de Lucas 2:52): en sabiduría, madurez de carácter y un testimonio público irreprochable, blindando a las congregaciones contra los desafíos y errores doctrinales de nuestra generación.
@@ -476,9 +478,16 @@
         </div>
     </div>
 
+    <div id="capa-pulpito" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:#111111; color:#ffffff; z-index:99999; overflow-y:auto; padding:2rem; box-sizing: border-box;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <button onclick="desactivarModoPulpito()" style="position:fixed; top:1rem; right:1rem; background:#e53e3e; color:white; border:none; padding:0.5rem 1rem; border-radius:4px; font-weight:bold; cursor:pointer;">❌ Salir</button>
+            <div id="contenido-pulpito-texto" style="font-size: 1.6rem; line-height: 1.8; padding-bottom:10rem;"></div>
+        </div>
+    </div>
+
     <script>
         let anchoUltimaVentana = window.innerWidth;
-        let pestanaActivaMovil = 'recursos'; 
+        let pestanaActivaMovil = 'biblia'; 
         let materiaActivaGlobal = 'hermeneutica';
         let viewAcademiaMovil = 'hermeneutica';
         let viewSermonMovil = 'formulario';
@@ -505,19 +514,21 @@
             if(destino === 'mesa') {
                 document.getElementById('btn-mesa').classList.add('active');
                 document.getElementById('vista-mesa').classList.remove('oculto');
+                ajustarLayoutPorDispositivo(true);
             } else if(destino === 'sermon') {
                 document.getElementById('btn-sermon').classList.add('active');
                 document.getElementById('vista-sermon').classList.remove('oculto');
                 if (typeof prepararModuloConstructor === 'function') prepararModuloConstructor();
+                ajustarLayoutPorDispositivo(true);
             } else if(destino === 'academia') {
                 document.getElementById('btn-academia').classList.add('active');
                 document.getElementById('vista-academia').classList.remove('oculto');
                 cargarMateriaDinamica(materiaActivaGlobal);
+                ajustarLayoutPorDispositivo(true);
             } else if(destino === 'nosotros') {
                 document.getElementById('btn-nosotros').classList.add('active');
                 document.getElementById('vista-nosotros').classList.remove('oculto');
             }
-            ajustarLayoutPorDispositivo(false);
         }
 
         function ajustarLayoutPorDispositivo(esCargaInicial) {
@@ -530,15 +541,25 @@
             const vSer = document.getElementById('vista-sermon');
             
             if (window.innerWidth > 1024) {
-                document.getElementById('bloque-paneles-derechos').insertBefore(bMesa, document.getElementById('bloque-paneles-derechos').firstChild);
-                document.getElementById('bloque-paneles-academia').insertBefore(bAca, document.getElementById('bloque-paneles-academia').firstChild);
-                document.getElementById('bloque-paneles-sermon').insertBefore(bSer, document.getElementById('bloque-paneles-sermon').firstChild);
+                const panelDerechoMesa = document.getElementById('bloque-paneles-derechos');
+                if (bMesa.parentElement !== panelDerechoMesa) panelDerechoMesa.insertBefore(bMesa, panelDerechoMesa.firstChild);
                 
-                document.getElementById('contenido-tab-biblia').classList.remove('oculto');
+                const panelDerechoAca = document.getElementById('bloque-paneles-academia');
+                if (bAca.parentElement !== panelDerechoAca) panelDerechoAca.insertBefore(bAca, panelDerechoAca.firstChild);
+                
+                const panelDerechoSer = document.getElementById('bloque-paneles-sermon');
+                if (bSer.parentElement !== panelDerechoSer) panelDerechoSer.insertBefore(bSer, panelDerechoSer.firstChild);
+                
                 document.getElementById('bloque-paneles-derechos').classList.remove('oculto');
+                document.getElementById('contenido-tab-biblia').classList.remove('oculto');
                 document.getElementById('contenido-aca-desarrollo').classList.remove('oculto');
                 document.getElementById('contenido-ser-pizarra').classList.remove('oculto');
                 document.getElementById('bloque-paneles-sermon').classList.remove('oculto');
+
+                cambiarPestañaLateral('recursos');
+                if(esCargaInicial && vAca.classList.contains('oculto') === false) {
+                    cargarMateriaDinamica('hermeneutica');
+                }
             } else {
                 if (bMesa.parentElement !== vMesa) vMesa.insertBefore(bMesa, vMesa.firstChild);
                 if (bAca.parentElement !== vAca) vAca.insertBefore(bAca, vAca.firstChild);
@@ -553,6 +574,7 @@
         function cambiarPestañaLateral(sel) {
             const tBib = document.getElementById('tab-biblia');
             const tRec = document.getElementById('tab-recursos');
+            
             const cBib = document.getElementById('contenido-tab-biblia');
             const cRec = document.getElementById('contenido-tab-recursos');
             const bDer = document.getElementById('bloque-paneles-derechos');
@@ -589,11 +611,13 @@
                     tLec.classList.add('active'); cDes.classList.remove('oculto'); bAca.classList.add('oculto');
                 } else {
                     cDes.classList.add('oculto'); bAca.classList.remove('oculto');
-                    document.getElementById(`tab-${sel}`).classList.add('active');
+                    const tabAct = document.getElementById(`tab-${sel}`);
+                    if (tabAct) tabAct.classList.add('active');
                 }
             } else {
                 cDes.classList.remove('oculto'); bAca.classList.remove('oculto');
-                document.getElementById(`tab-${sel}`).classList.add('active');
+                const tabAct = document.getElementById(`tab-${sel}`);
+                if (tabAct) tabAct.classList.add('active');
             }
         }
 
@@ -617,6 +641,7 @@
         }
 
         function cargarLibroDinamico(codigoLibro) {
+            pestanaActivaMovil = 'biblia';
             const scriptViejo = document.getElementById('script-libro-activo');
             if (scriptViejo) scriptViejo.remove();
             const nuevoScript = document.createElement('script');
@@ -639,7 +664,10 @@
                 op.value = cap.capitulo; op.innerText = `Cap. ${cap.capitulo}`;
                 selCap.appendChild(op);
             });
-            filtrarCapituloEnPantalla(DatosLibroActual.capitulos[0].capitulo);
+            const primerCap = DatosLibroActual.capitulos[0].capitulo;
+            selCap.value = primerCap;
+            filtrarCapituloEnPantalla(primerCap);
+            ajustarLayoutPorDispositivo(false);
         }
 
         function filtrarCapituloEnPantalla(numCapitulo) {
@@ -659,17 +687,71 @@
             const capObj = DatosLibroActual.capitulos.find(c => c.capitulo === numCap);
             const vObj = capObj.versiculos.find(v => v.num === numVer);
             cambiarPestañaLateral('recursos');
+            
+            let htmlStrong = '';
+            
+            // 1. Detección del formato nativo del archivo base (recursos_vocabulario)
+            if (vObj.recursos_vocabulario && vObj.recursos_vocabulario.length > 0) {
+                htmlStrong = `
+                    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e0;">
+                        <span class="tag-disciplina" style="background-color: #feebc8; color: #c05621; margin-bottom: 8px;">Análisis Léxico (Strong)</span>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-top: 8px;">
+                `;
+                vObj.recursos_vocabulario.forEach(item => {
+                    htmlStrong += `
+                        <div style="background: #fff; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.82rem;">
+                            <strong style="color: var(--accent);">${item.strong || 'Léxico'}</strong> 
+                            <span style="font-style: italic; color: var(--primary); font-weight: 600;">${item.palabra}</span>
+                            <div style="color: var(--text-muted); font-size: 0.75rem; margin-top: 2px;">${item.definicion || item.significado}</div>
+                        </div>
+                    `;
+                });
+                htmlStrong += `</div></div>`;
+            } 
+            // 2. Detección alternativa del formato compacto de backend (strong array)
+            else if (vObj.strong && vObj.strong.length > 0) {
+                htmlStrong = `
+                    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e0;">
+                        <span class="tag-disciplina" style="background-color: #feebc8; color: #c05621; margin-bottom: 8px;">Análisis Léxico (Strong)</span>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-top: 8px;">
+                `;
+                vObj.strong.forEach(item => {
+                    htmlStrong += `
+                        <div style="background: #fff; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.82rem;">
+                            <strong style="color: var(--accent);">${item.codigo}</strong> 
+                            <span style="font-style: italic; color: var(--primary); font-weight: 600;">${item.palabra}</span>
+                            <div style="color: var(--text-muted); font-size: 0.75rem; margin-top: 2px;">${item.significado}</div>
+                        </div>
+                    `;
+                });
+                htmlStrong += `</div></div>`;
+            } 
+            // 3. Fallback por si la base de datos no cuenta aún con las raíces cargadas
+            else {
+                htmlStrong = `
+                    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e0; font-size: 0.85rem; color: var(--text-muted); font-style: italic;">
+                        ⚠️ Vocabulario original y códigos Strong no mapeados para este versículo.
+                    </div>
+                `;
+            }
+
+            // Inyectamos de forma consolidada dentro del widget de interpretación
             document.getElementById('interpretation-tool').innerHTML = `
-                <div class="dict-box">
+                <div class="dict-box" style="border-left-color: var(--accent);">
                     <p style="font-weight:bold; color:var(--accent); font-size:0.85rem;">${DatosLibroActual.titulo} ${numCap}:${vObj.num}</p>
-                    <p style="font-size:0.9rem; color:#4a5568; margin-bottom:10px; font-style:italic;">"${vObj.texto}"</p>
-                    <p style="font-size:0.9rem;">${vObj.comentario}</p>
+                    <p style="font-size:0.9rem; color:#4a5568; margin-bottom:12px; font-style:italic; line-height: 1.4;">"${vObj.texto}"</p>
+                    
+                    <span class="tag-disciplina" style="background-color: #e2e8f0; color: #4a5568; margin-bottom: 6px;">Comentario Exegético</span>
+                    <p style="font-size:0.92rem; line-height: 1.5; color: var(--text); margin-bottom: 8px;">${vObj.comentario}</p>
+                    
+                    ${htmlStrong}
                 </div>
             `;
         }
 
         function cargarMateriaDinamica(nombreMateria) {
             materiaActivaGlobal = nombreMateria;
+            if (window.innerWidth <= 1024) viewAcademiaMovil = nombreMateria;
             const scriptViejo = document.getElementById('script-materia-activa');
             if (scriptViejo) scriptViejo.remove();
             const nuevoScript = document.createElement('script');
@@ -682,26 +764,141 @@
         }
 
         function renderizarIndiceMateria() {
-            cambiarPestañaAcademia(materiaActivaGlobal);
+            document.getElementById('tab-hermeneutica').classList.remove('active');
+            document.getElementById('tab-exegesis').classList.remove('active');
+            document.getElementById('tab-homiletica').classList.remove('active');
+            document.getElementById('tab-lectura-aca').classList.remove('active');
+
+            const pestañaElemento = document.getElementById(`tab-${materiaActivaGlobal}`);
+            if (pestañaElemento) pestañaElemento.classList.add('active');
+
             document.getElementById('pantalla-clase-activa').innerHTML = `
-                <h2>¿Qué es la ${DatosMateriaActiva.materia}?</h2>
-                <div class="bloque-inductivo" style="margin-top:1rem; border-left:5px solid var(--primary);">${DatosMateriaActiva.descripcion}</div>
+                <div class="seccion-header">
+                    <span class="tag-disciplina">Concepto Fundamental</span>
+                    <h2 style="font-size: 1.8rem; color: var(--primary); margin-top:0.3rem;">¿Qué es la ${DatosMateriaActiva.materia}?</h2>
+                </div>
+                <div class="bloque-inductivo" style="margin-top: 1.5rem; line-height: 1.7; font-size: 1.1rem; border-left: 5px solid var(--primary); background-color: #fff;">
+                    ${DatosMateriaActiva.descripcion}
+                </div>
+                <p style="text-align: center; color: var(--text-muted); margin-top: 2rem; font-style: italic;">👉 Selecciona un tema del índice en el panel derecho para desarmar los pasos de estudio.</p>
             `;
-            let htmlIndice = `<h3>Temas</h3>`;
-            DatosMateriaActiva.temas.forEach((tema, idx) => {
-                htmlIndice += `<div class="item-indice-academia" onclick="desplegarLecciónEnPizarra(${idx})"><span>📘 ${tema.titulo}</span></div>`;
+            const contenedorIndice = document.getElementById('contenedor-indice-materia');
+            let htmlIndice = `<h3 style="margin-bottom: 1rem;">Temas de ${DatosMateriaActiva.materia}</h3>`;
+            DatosMateriaActiva.temas.forEach((tema, index) => {
+                htmlIndice += `
+                    <div class="item-indice-academia" id="btn-tema-${index}" onclick="desplegarLecciónEnPizarra(${index})">
+                        <span>📘 ${tema.titulo}</span>
+                        <span style="font-size:0.75rem; color:var(--accent);">Leer →</span>
+                    </div>
+                `;
             });
-            document.getElementById('contenedor-indice-materia').innerHTML = htmlIndice;
+            contenedorIndice.innerHTML = htmlIndice;
+            cambiarPestañaAcademia(materiaActivaGlobal);
         }
 
-        function desplegarLecciónEnPizarra(idx) {
-            const tema = DatosMateriaActiva.temas[idx];
+        function desplegarLecciónEnPizarra(index) {
+            if(typeof DatosMateriaActiva === 'undefined' || !DatosMateriaActiva.temas[index]) return;
+            const tema = DatosMateriaActiva.temas[index];
             document.getElementById('pantalla-clase-activa').innerHTML = `
-                <h2>${tema.titulo}</h2>
-                <div class="card-leccion" style="margin-top:1rem;"><strong>Concepto Central:</strong><p>${tema.concepto}</p></div>
-                <div class="bloque-inductivo">${tema.desarrollo}</div>
+                <div class="seccion-header">
+                    <span class="tag-disciplina">${DatosMateriaActiva.materia}</span>
+                    <h2 style="font-size: 1.8rem; color: var(--primary); margin-top:0.3rem;">${tema.titulo}</h2>
+                </div>
+                <div class="card-leccion" style="border-left: 4px solid var(--accent); padding: 1.5rem; background:#fff; margin-top: 1rem;">
+                    <h3 style="border:none; margin-bottom:0.8rem;">Concepto Central:</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.6; color: var(--text);">${tema.concepto}</p>
+                </div>
+                <div class="bloque-inductivo" style="margin-top: 1.5rem; line-height: 1.7; font-size: 1.05rem;">
+                    ${tema.desarrollo}
+                </div>
             `;
+            const itemsIndice = document.querySelectorAll('.item-indice-academia');
+            itemsIndice.forEach(it => it.classList.remove('active'));
+            const btnActivo = document.getElementById(`btn-tema-${index}`);
+            if (btnActivo) btnActivo.classList.add('active');
             if (window.innerWidth <= 1024) cambiarPestañaAcademia('lectura');
+        }
+
+        // ==========================================================================
+        // FUNCIÓN DE EXPORTACIÓN A PDF OFFLINE (100% SIN INTERNET)
+        // ==========================================================================
+        function exportarAPDFLimpioOffline() {
+            const bBorrador = document.getElementById('pizarra-borrador-sermon');
+            
+            if (!bBorrador || bBorrador.innerText.includes('Completa las fases del embudo')) {
+                alert('⚠️ Primero debes completar el embudo y hacer clic en "Generar Bosquejo" para poder imprimir.');
+                return;
+            }
+
+            const contenidoImprimir = bBorrador.innerHTML;
+            const ventanaImpresion = window.open('', '_blank', 'width=900,height=700');
+            
+            ventanaImpresion.document.write(`
+                <!DOCTYPE html>
+                <html lang="es">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Bosquejo de Predicación - Proyecto Berea</title>
+                    <style>
+                        body {
+                            font-family: 'Segoe UI', Arial, sans-serif;
+                            color: #1a202c;
+                            background: #ffffff;
+                            margin: 40px;
+                            line-height: 1.6;
+                            font-size: 12pt;
+                        }
+                        h1, h2, h3, h4 {
+                            color: #2c3e50;
+                            margin-top: 20px;
+                            margin-bottom: 10px;
+                            page-break-after: avoid;
+                        }
+                        h1 { font-size: 24pt; border-bottom: 3px solid #16a085; padding-bottom: 8px; }
+                        h2 { font-size: 18pt; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+                        h3 { font-size: 14pt; }
+                        p, li { margin-bottom: 12px; text-align: justify; }
+                        .bloque-inductivo, .dict-box, .card-leccion, blockquote {
+                            background: #f8f9fa !important;
+                            border-left: 4px solid #16a085 !important;
+                            padding: 15px;
+                            margin: 15px 0;
+                            page-break-inside: avoid;
+                        }
+                        .tag-disciplina {
+                            display: inline-block;
+                            background: #edf2f7 !important;
+                            color: #4a5568 !important;
+                            font-size: 9pt;
+                            font-weight: bold;
+                            padding: 4px 10px;
+                            border-radius: 4px;
+                            text-transform: uppercase;
+                        }
+                        @media print {
+                            body { margin: 20mm 15mm 20mm 15mm; }
+                            a { text-decoration: none; color: #000; }
+                            * {
+                                -webkit-print-color-adjust: exact !important;
+                                print-color-adjust: exact !important;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="wrapper-print">
+                        ${contenidoImprimir}
+                    </div>
+                    <script>
+                        window.onload = function() {
+                            window.print();
+                            setTimeout(function() { window.close(); }, 500);
+                        };
+                    <\/script>
+                </body>
+                </html>
+            `);
+            ventanaImpresion.document.close();
         }
     </script>
     <script src="constructor.js"></script>
