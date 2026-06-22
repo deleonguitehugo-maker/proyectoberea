@@ -104,7 +104,7 @@
         }
 
         /* ==========================================================================
-           3. ESTRUCTURA DE CONTENEDORES MESA Y ACADEMIA
+           3. ESTRUCTURA DE CONTENEDORES MESA, ACADEMIA Y CONSTRUCTOR
            ========================================================================== */
         .seccion-app { 
             display: flex; 
@@ -126,7 +126,7 @@
             flex-shrink: 0;
         }
 
-        #tab-biblia, #tab-lectura-aca {
+        #tab-biblia, #tab-lectura-aca, #tab-formulario-ser {
             display: none; /* Ocultos en PC */
         }
 
@@ -154,7 +154,7 @@
             border-top: 2px solid var(--accent);
         }
 
-        /* COLUMNA IZQUIERDA: Desarrollo (Biblia o Lección de Academia) */
+        /* COLUMNA IZQUIERDA: Desarrollo (Biblia, Lección o Vista Previa) */
         .bible-column { 
             flex: 1; 
             padding: 2rem; 
@@ -163,7 +163,7 @@
             background-color: var(--panel-bg); 
         }
 
-        /* COLUMNA DERECHA: Paneles de Control e Índices (600px) */
+        /* COLUMNA DERECHA: Paneles de Control (600px) */
         .side-panel-wrapper {
             width: 600px; 
             min-width: 480px;
@@ -184,7 +184,7 @@
         }
 
         /* ==========================================================================
-           4. COMPONENTES INTERNOS Y ACADEMIA
+           4. COMPONENTES INTERNOS Y FORMULARIOS
            ========================================================================== */
         .selector-box {
             background-color: #f7fafc;
@@ -221,12 +221,8 @@
             background: white; padding: 1.2rem; border-radius: 6px;
             border: 1px solid var(--border); margin-bottom: 1.5rem;
         }
-           .bloque-inductivo p {
-            margin-bottom: 1.2rem; 
-        }
-           .bloque-inductivo p:last-child {
-            margin-bottom: 0; 
-        }
+        .bloque-inductivo p { margin-bottom: 1.2rem; }
+        .bloque-inductivo p:last-child { margin-bottom: 0; }
 
         h3 { color: var(--primary); margin-bottom: 0.5rem; font-size: 1.1rem; border-bottom: 2px solid #edf2f7; padding-bottom: 0.3rem; }
         .instruccion { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.4; }
@@ -247,31 +243,18 @@
         .card-leccion { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; margin-bottom: 1.2rem; text-align: left; }
         .tag-disciplina { display: inline-block; background-color: #e2e8f0; color: #4a5568; font-size: 0.75rem; font-weight: bold; padding: 0.25rem 0.6rem; border-radius: 50px; text-transform: uppercase; margin-bottom: 0.5rem; }
 
-        /* Estilos para los botones del Índice Temático */
         .item-indice-academia {
-            padding: 0.75rem 1rem;
-            background-color: #f7fafc;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            margin-bottom: 0.5rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 0.75rem 1rem; background-color: #f7fafc; border: 1px solid var(--border);
+            border-radius: 6px; margin-bottom: 0.5rem; cursor: pointer; font-size: 0.9rem;
+            font-weight: 500; transition: all 0.2s ease; display: flex; justify-content: space-between; align-items: center;
         }
-        .item-indice-academia:hover {
-            background-color: #e6fffa;
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        .item-indice-academia.active {
-            background-color: var(--accent);
-            border-color: var(--accent);
-            color: white;
-        }
+        .item-indice-academia:hover { background-color: #e6fffa; border-color: var(--accent); color: var(--accent); }
+        .item-indice-academia.active { background-color: var(--accent); border-color: var(--accent); color: white; }
+
+        /* ESTILOS EXCLUSIVOS DEL EMBUDO HOMILÉTICO */
+        .step-constructor { display: none; }
+        .step-constructor.active { display: block; }
+        .btn-nav-step { padding: 10px 20px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.95rem; color: white; background: var(--primary); transition: opacity 0.2s; }
 
         /* ==========================================================================
            5. ADAPTACIÓN DISPOSITIVOS MÓVILES
@@ -284,53 +267,31 @@
             } 
 
             .panel-header-tabs {
-                width: 100%;
-                height: 48px;
-                background-color: #edf2f7;
-                padding: 0.4rem 0.4rem 0 0.4rem;
-                display: flex;
-                align-items: flex-end;
-                gap: 2px;
-                flex-shrink: 0;
+                width: 100%; height: 48px; background-color: #edf2f7;
+                padding: 0.4rem 0.4rem 0 0.4rem; display: flex; align-items: flex-end; gap: 2px; flex-shrink: 0;
             }
 
-            #tab-biblia, #tab-lectura-aca {
+            #tab-biblia, #tab-lectura-aca, #tab-formulario-ser {
                 display: block;
             }
 
             .tab-item {
-                flex: 1;
-                text-align: center;
-                font-size: 0.72rem;
-                padding: 0.5rem 0.1rem;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
+                flex: 1; text-align: center; font-size: 0.72rem; padding: 0.5rem 0.1rem;
+                text-overflow: ellipsis; overflow: hidden; white-space: nowrap;
             }
 
             .side-panel-wrapper {
-                width: 100%;
-                min-width: 100%;
-                flex: 1 1 auto;
-                display: flex;
-                flex-direction: column;
-                overflow: hidden;
+                width: 100%; min-width: 100%; flex: 1 1 auto; display: flex; flex-direction: column; overflow: hidden;
             }
 
             .bible-column, .study-column, .resources-column {
-                width: 100%;
-                flex: 1 1 auto;
-                padding: 1rem;
-                border: none;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
+                width: 100%; flex: 1 1 auto; padding: 1rem; border: none; overflow-y: auto; -webkit-overflow-scrolling: touch;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- BARRA DE NAVEGACIÓN SUPERIOR -->
     <nav>
         <div class="nav-logo">
             <span>📜</span> 
@@ -341,15 +302,13 @@
         </div>
         <div class="nav-menu">
             <button class="nav-link active" id="btn-mesa" onclick="navegarA('mesa')">📖 Mesa</button>
+            <button class="nav-link" id="btn-sermon" onclick="navegarA('sermon')">🎙️ Constructor</button>
             <button class="nav-link" id="btn-academia" onclick="navegarA('academia')">🎓 Academia</button>
             <button class="nav-link" id="btn-nosotros" onclick="navegarA('nosotros')">❤️ Sobre</button>
         </div>
     </nav>
 
-    <!-- 1. MESA DE ESTUDIO PRINCIPAL -->
     <div class="seccion-app" id="vista-mesa">
-        
-        <!-- Columna Izquierda: Biblia -->
         <div class="bible-column" id="contenido-tab-biblia">
             <div class="selector-box">
                 <label for="selector-libro">Libro:</label>
@@ -366,129 +325,165 @@
                     <option value="3jn">3 Carta de Juan</option>
                     <option value="jud">Epístola de Judas</option>
                 </select>
-
                 <label for="selector-capitulo" id="label-capitulo" class="oculto">Cap:</label>
-                <select id="selector-capitulo" class="oculto" onchange="filtrarCapituloEnPantalla(this.value)">
-                </select>
+                <select id="selector-capitulo" class="oculto" onchange="filtrarCapituloEnPantalla(this.value)"></select>
             </div>
-            
             <div id="contenedor-biblia">
-                <p style="text-align: center; color: var(--text-muted); margin-top: 2rem; font-style: italic;">
-                    Selecciona un libro bíblico para comenzar.
-                </p>
+                <p style="text-align: center; color: var(--text-muted); margin-top: 2rem; font-style: italic;">Selecciona un libro bíblico para comenzar.</p>
             </div>
         </div>
 
-        <!-- Columna Derecha: Pestañas de la Mesa -->
         <div class="side-panel-wrapper" id="bloque-paneles-derechos">
-            
             <div class="panel-header-tabs" id="barra-pestanas-global">
                 <span class="tab-item" id="tab-biblia" onclick="cambiarPestañaLateral('biblia')">Texto Bíblico</span>
-                <span class="tab-item active" id="tab-estudio" onclick="cambiarPestañaLateral('estudio')">Estudio Inductivo</span>
-                <span class="tab-item" id="tab-recursos" onclick="cambiarPestañaLateral('recursos')">Recursos</span>
+                <span class="tab-item active" id="tab-recursos" onclick="cambiarPestañaLateral('recursos')">Recursos y Comentarios</span>
             </div>
-
-            <!-- Panel Estudio -->
-            <div class="study-column" id="contenido-tab-estudio">
-                <div class="bloque-inductivo">
-                    <h3>1. Observación Básica</h3>
-                    <p class="instruccion">¿Qué dice el texto? Anota palabras clave o verbos principales.</p>
-                    <textarea id="note-obs" placeholder="Escribe detalles importantes aquí..."></textarea>
-                </div>
-
-                <div class="bloque-inductivo">
-                    <h3>2. Interpretación</h3>
-                    <p class="instruccion">¿Qué significa el texto en su contexto original?</p>
-                    <textarea id="note-int" placeholder="¿Qué entendiste del mensaje original?"></textarea>
-                </div>
-
-                <div class="bloque-inductivo">
-                    <h3>3. Aplicación Personal</h3>
-                    <p class="instruccion">¿Cómo responde mi vida ante esta verdad?</p>
-                    
-                    <label>¿Qué me enseña acerca de Dios?</label>
-                    <textarea id="note-apl-1" placeholder="Enfocado en conocer a Dios..."></textarea>
-
-                    <label>¿Hay alguna acción concreta que tomar?</label>
-                    <textarea id="note-apl-2" placeholder="Aplicación práctica diaria..."></textarea>
-                </div>
-
-                <button class="btn-save" onclick="guardarEstudio()">Guardar Notas de Este Libro</button>
-            </div>
-
-            <!-- Panel Recursos -->
-            <div class="resources-column oculto" id="contenido-tab-recursos">
+            <div class="resources-column" id="contenido-tab-recursos">
                 <div id="interpretation-tool">
-                    <p style="color: var(--text-muted); font-style: italic; text-align: center; padding: 3rem 0;">Ningún versículo seleccionado.</p>
+                    <p style="color: var(--text-muted); font-style: italic; text-align: center; padding: 3rem 0;">Ningún versículo seleccionado. Haz clic sobre cualquier texto bíblico de la izquierda para desplegar sus herramientas de apoyo.</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 2. APARTADO ACADEMIA (CONCEPTO RAÍZ + INTERFAZ DINÁMICA DE TEMAS) -->
-    <div class="seccion-app oculto" id="vista-academia">
-        
-        <!-- Columna Izquierda: Pizarra de Lectura (Concepto Raíz o Desarrollo de Tema) -->
-        <div class="bible-column" id="contenido-aca-desarrollo">
-            <div id="pantalla-clase-activa">
+    <div class="seccion-app oculto" id="vista-sermon">
+        <div class="bible-column" id="contenido-ser-pizarra">
+            <div id="pizarra-borrador-sermon">
                 <div class="seccion-header">
-                    <h2>Capacitación Pastoral Básica</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.5rem;">
-                        Selecciona cualquier materia teológica de la derecha para cargar su lista de temas.
-                    </p>
+                    <h2>Púlpito Virtual e Hilado Homilético</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.5rem;">Aquí se estructurará y compilará dinámicamente el andamiaje de tu bosquejo a medida que avances en el embudo lateral.</p>
                 </div>
-                <div style="text-align: center; color: var(--text-muted); padding: 4rem 1rem; font-style: italic;">
-                    ← Esperando selección de disciplina teológica.
+                <div style="text-align: center; color: var(--text-muted); padding: 6rem 1rem; font-style: italic; border: 2px dashed var(--border); border-radius: 8px; margin-top: 2rem;">
+                    📝 Completa las fases del embudo en el panel de la derecha para ver tu bosquejo final aquí listo para predicar.
                 </div>
             </div>
         </div>
 
-        <!-- Columna Derecha: Índices Cargados Dinámicamente -->
-        <div class="side-panel-wrapper" id="bloque-paneles-academia">
+        <div class="side-panel-wrapper" id="bloque-paneles-sermon">
+            <div class="panel-header-tabs" id="barra-pestanas-sermon">
+                <span class="tab-item active" id="tab-formulario-ser" onclick="cambiarPestañaSermon('formulario')">Embudo Guiado</span>
+                <span class="tab-item" style="pointer-events: none; background:#cbd5e0; color:#4a5568;">Estructura</span>
+            </div>
             
+            <div class="study-column" id="contenedor-formulario-sermon">
+                <div style="margin-bottom: 1rem;">
+                    <label style="font-weight: bold; color: var(--text-muted); margin: 0 0 0.3rem 0;">Modelo de Sermón:</label>
+                    <select id="sermon-plantilla" onchange="cambiarEstructuraPlantilla()" style="width:100%; padding:0.5rem; border:1px solid var(--border); border-radius:4px; font-size:0.9rem; background:#fff; outline:none;">
+                        <option value="expositivo">Expositivo Clásico (Estructura Textual)</option>
+                        <option value="tematico">Temático Doctrinal (Tesis y Defensa)</option>
+                        <option value="narrativo">Narrativo Clásico (Escenario y Mensaje)</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1.2rem; background-color: #e2e8f0; border-radius: 50px; height: 8px; width: 100%; overflow: hidden;">
+                    <div id="barra-progreso-constructor" style="background-color: var(--accent); width: 33%; height: 100%; transition: width 0.4s ease;"></div>
+                </div>
+                <div id="indicador-etapa-texto" style="font-size: 0.75rem; font-weight: bold; color: var(--accent); text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.5px;">Fase 1 de 3: Observación</div>
+                
+                <div id="c-step1" class="step-constructor active">
+                    <div class="bloque-inductivo">
+                        <span class="tag-disciplina">Etapa 1: Observación</span><br><br>
+                        <label id="lbl-obs-1">¿Quién actúa? Describe a los personajes y sus acciones clave:</label>
+                        <textarea id="sermon-obs-1" placeholder="Ej: El autor enfatiza las demandas ministeriales..."></textarea>
+                        <label id="lbl-obs-2">¿Qué palabras o ideas se repiten in este pasaje?</label>
+                        <textarea id="sermon-obs-2" placeholder="Ej: Se repiten llamados a la piedad y la doctrina..."></textarea>
+                    </div>
+                    <div style="display:flex; gap:10px;"><button class="btn-nav-step" onclick="navegarPasoConstructor(1, 2)">Siguiente →</button><button class="btn-nav-step" style="background:#4a5568;" onclick="guardarBorradorManual()">💾</button></div>
+                </div>
+
+                <div id="c-step2" class="step-constructor">
+                    <div class="bloque-inductivo">
+                        <span class="tag-disciplina">Etapa 2: Interpretación</span><br><br>
+                        <label id="lbl-int-1">¿Qué significaba este mensaje para la audiencia original?</label>
+                        <textarea id="sermon-int-1" placeholder="Ej: Un mandato claro para preservar la pureza del evangelio..."></textarea>
+                        <label id="lbl-int-2">¿Qué verdad fundamental aprendemos aquí sobre Dios?</label>
+                        <textarea id="sermon-int-2" placeholder="Ej: Que Dios demanda fidelidad de sus siervos..."></textarea>
+                    </div>
+                    <div style="display:flex; gap:10px;"><button class="btn-nav-step" style="background:#718096;" onclick="navegarPasoConstructor(2, 1)">← Atrás</button><button class="btn-nav-step" onclick="navegarPasoConstructor(2, 3)">Siguiente →</button><button class="btn-nav-step" style="background:#4a5568;" onclick="guardarBorradorManual()">💾</button></div>
+                </div>
+
+                <div id="c-step3" class="step-constructor">
+                    <div class="bloque-inductivo">
+                        <span class="tag-disciplina">Etapa 3: Aplicación</span><br><br>
+                        <label>Título sugerido para el mensaje:</label>
+                        <input type="text" id="sermon-titulo-e" placeholder="Ej: Guardianes de la Verdad" style="width:100%; padding:0.6rem; border:1px solid var(--border); border-radius:4px; margin-bottom:1rem; outline:none;">
+                        <label id="lbl-apl-1">¿Cómo responde nuestra vida? (Acción concreta):</label>
+                        <textarea id="sermon-apl-1" placeholder="Ej: Evaluando nuestra dedicación diaria al estudio..."></textarea>
+                        <label id="lbl-apl-2">Ilustración o Introducción:</label>
+                        <textarea id="sermon-apl-2" placeholder="Ej: Al igual que un timón guía una gran embarcación..."></textarea>
+                    </div>
+                    <div style="display:flex; gap:10px;"><button class="btn-nav-step" style="background:#718096;" onclick="navegarPasoConstructor(3, 2)">← Atrás</button><button class="btn-save" onclick="procesarBosquejoFinal()">Generar Bosquejo</button></div>
+                </div>
+
+                <div id="c-opciones-finales" class="bloque-inductivo oculto" style="margin-top:1rem; background:#f7fafc;">
+                    <h3 style="color:var(--accent); margin-bottom:1rem;">Acciones del Bosquejo</h3>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:0.5rem;">
+                        <button class="btn-save" style="background:var(--primary);" onclick="descargarSermonTexto()">Exportar TXT</button>
+                        <button class="btn-save" style="background:#0284c7;" onclick="exportarAPDFLimpioOffline()">Guardar PDF 📄</button>
+                    </div>
+                    <button class="btn-save" style="background:#1a202c; width:100%;" onclick="activarModoPulpito()">📱 Modo Púlpito</button>
+                    <button class="btn-nav-step" style="background:#718096; width:100%; margin-top:0.5rem;" onclick="reiniciarConstructor()">Nuevo Diseño</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="seccion-app oculto" id="vista-academia">
+        <div class="bible-column" id="contenido-aca-desarrollo">
+            <div id="pantalla-clase-activa">
+                <div style="text-align: center; color: var(--text-muted); padding: 4rem 1rem; font-style: italic;">← Esperando selección de disciplina teológica.</div>
+            </div>
+        </div>
+        <div class="side-panel-wrapper" id="bloque-paneles-academia">
             <div class="panel-header-tabs" id="barra-pestanas-academia">
                 <span class="tab-item" id="tab-lectura-aca" onclick="cambiarPestañaAcademia('lectura')">Ver Clase</span>
                 <span class="tab-item" id="tab-hermeneutica" onclick="cargarMateriaDinamica('hermeneutica')">Hermenéutica</span>
                 <span class="tab-item" id="tab-exegesis" onclick="cargarMateriaDinamica('exegesis')">Exégesis</span>
                 <span class="tab-item" id="tab-homiletica" onclick="cargarMateriaDinamica('homiletica')">Homilética</span>
             </div>
+            <div class="study-column" id="contenedor-indice-materia"></div>
+        </div>
+    </div>
 
-            <!-- Contenedor Único para el Índice de Temas Activo -->
-            <div class="study-column" id="contenedor-indice-materia">
-                <p style="color: var(--text-muted); text-align: center; padding-top: 2rem; font-style: italic;">
-                    Haz clic en una pestaña para ver sus temas.
+<!-- ==========================================================================
+       4. APARTADO SOBRE NOSOTROS (MISIÓN Y VISIÓN)
+       ========================================================================== -->
+    <div class="seccion-app oculto" id="vista-nosotros">
+        <div class="container-lectura" style="max-width: 800px; padding: 2rem 1rem; margin: 0 auto; overflow-y: auto; height: 100%;">
+            
+            <!-- TARJETA: MISIÓN -->
+            <div class="card-leccion" style="margin-bottom: 2rem; border-left: 5px solid var(--accent);">
+                <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--accent); border: none;">🎯 Misión</h3>
+                <p style="font-size: 1.05rem; line-height: 1.6; color: var(--text); margin-bottom: 1rem; font-weight: 500;">
+                    Capacitar y equipar a la iglesia local a través de herramientas tecnológicas y un análisis bíblico riguroso, facilitando el acceso a un estudio exegético, doctrinal e histórico profundo de las Escrituras.
+                </p>
+                <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-muted);">
+                    El proyecto busca demoler la superficialidad espiritual y el intelectualismo secular, proveyendo a los maestros, pastores y creyentes un entorno digital donde el texto sagrado se estudie con precisión técnica (códigos Strong, vocabulario original y comentarios históricos) para forjar un discipulado maduro, robusto y aplicable a la realidad contemporánea.
                 </p>
             </div>
+
+            <!-- TARJETA: VISIÓN -->
+            <div class="card-leccion" style="border-left: 5px solid var(--primary);">
+                <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--primary); border: none;">🔭 Visión</h3>
+                <p style="font-size: 1.05rem; line-height: 1.6; color: var(--text); margin-bottom: 1rem; font-weight: 500;">
+                    Convertirse en la plataforma de referencia teológica y educativa para el desarrollo integral del creyente en el ámbito de habla hispana, levantando una generación de cristianos que manejen con precisión la Palabra de Verdad.
+                </p>
+                <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-muted);">
+                    La visión proyecta una iglesia local sólida, donde el crecimiento no se mida por el ruido o el marketing masivo, sino por un avance equilibrado (siguiendo el modelo de Lucas 2:52): en sabiduría, madurez de carácter y un testimonio público irreprochable, blindando a las congregaciones contra los desafíos y errores doctrinales de nuestra generación.
+                </p>
+            </div>
+
         </div>
     </div>
 
-    <!-- 3. APARTADO SOBRE NOSOTROS -->
-    <div class="seccion-app oculto" id="vista-nosotros">
-        <div class="container-lectura" style="max-width: 700px; padding: 2rem; margin: 0 auto; overflow-y: auto;">
-            <div class="seccion-header" style="text-align: center; margin-bottom: 2rem;">
-                <h2>El Corazón de Proyecto Berea</h2>
-            </div>
-            <div class="card-leccion">
-                <h3>🎯 Nuestra Misión</h3>
-                <br>
-                <p>Equipar y dignificar el ministerio de los pastores y líderes locales proveyendo herramientas de análisis bíblico inductivo de acceso abierto totalmente gratuitas.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==========================================================================
-       6. SCRIPTS LÓGICOS CONSOLIDADOS
-       ========================================================================== */ -->
     <script>
         let anchoUltimaVentana = window.innerWidth;
-        let pestanaActivaMovil = 'biblia'; 
+        let pestanaActivaMovil = 'recursos'; 
         let materiaActivaGlobal = 'hermeneutica';
         let viewAcademiaMovil = 'hermeneutica';
+        let viewSermonMovil = 'formulario';
 
-        window.onload = function() {
-            ajustarLayoutPorDispositivo(true);
-        };
-
+        window.onload = function() { ajustarLayoutPorDispositivo(true); };
         window.onresize = function() {
             if (window.innerWidth !== anchoUltimaVentana) {
                 anchoUltimaVentana = window.innerWidth;
@@ -496,267 +491,140 @@
             }
         };
 
-        // CARGA DINÁMICA DE MATERIAS DE LA ACADEMIA (.JS AUTOMÁTICO)
-        function cargarMateriaDinamica(nombreMateria) {
-            materiaActivaGlobal = nombreMateria;
-            if (window.innerWidth <= 1024) {
-                viewAcademiaMovil = nombreMateria;
-            }
-
-            // Remueve el script cargado anteriormente para evitar consumo en memoria
-            const scriptViejoMateria = document.getElementById('script-materia-activa');
-            if (scriptViejoMateria) scriptViejoMateria.remove();
-
-            const nuevoScriptMateria = document.createElement('script');
-            nuevoScriptMateria.id = 'script-materia-activa';
-            nuevoScriptMateria.src = `academia/${nombreMateria}.js`;
-
-            nuevoScriptMateria.onload = function() {
-                if (typeof DatosMateriaActiva !== 'undefined') {
-                    renderizarIndiceMateria();
-                }
-            };
-            document.body.appendChild(nuevoScriptMateria);
-        }
-
-        // REDISEÑADA: Inyecta el concepto raíz inmediatamente al cargar la materia
-        function renderizarIndiceMateria() {
-            // Sincronizar clases visuales de las pestañas
-            document.getElementById('tab-hermeneutica').classList.remove('active');
-            document.getElementById('tab-exegesis').classList.remove('active');
-            document.getElementById('tab-homiletica').classList.remove('active');
-            document.getElementById('tab-lectura-aca').classList.remove('active');
-
-            const pestañaElemento = document.getElementById(`tab-${materiaActivaGlobal}`);
-            if (pestañaElemento) pestañaElemento.classList.add('active');
-
-            // 1. INYECTAR EL CONCEPTO DE RAÍZ EN LA PIZARRA IZQUIERDA
-            const contenedorPizarra = document.getElementById('pantalla-clase-activa');
-            contenedorPizarra.innerHTML = `
-                <div class="seccion-header">
-                    <span class="tag-disciplina">Concepto Fundamental</span>
-                    <h2 style="font-size: 1.8rem; color: var(--primary); margin-top:0.3rem;">¿Qué es la ${DatosMateriaActiva.materia}?</h2>
-                </div>
-                <div class="bloque-inductivo" style="margin-top: 1.5rem; line-height: 1.7; font-size: 1.1rem; border-left: 5px solid var(--primary); background-color: #fff;">
-                    ${DatosMateriaActiva.descripcion}
-                </div>
-                <p style="text-align: center; color: var(--text-muted); margin-top: 2rem; font-style: italic;">
-                    👉 Selecciona un tema del índice en el panel derecho para desarmar los pasos de estudio.
-                </p>
-            `;
-
-            // 2. CONSTRUIR EL ÍNDICE DE TEMAS EN EL PANEL DERECHO
-            const contenedorIndice = document.getElementById('contenedor-indice-materia');
-            let htmlIndice = `<h3 style="margin-bottom: 1rem;">Temas de ${DatosMateriaActiva.materia}</h3>`;
-            
-            DatosMateriaActiva.temas.forEach((tema, index) => {
-                htmlIndice += `
-                    <div class="item-indice-academia" id="btn-tema-${index}" onclick="desplegarLecciónEnPizarra(${index})">
-                        <span>📘 ${tema.titulo}</span>
-                        <span style="font-size:0.75rem; color:var(--accent);">Leer →</span>
-                    </div>
-                `;
-            });
-
-            contenedorIndice.innerHTML = htmlIndice;
-            cambiarPestañaAcademia(materiaActivaGlobal);
-        }
-
-        function desplegarLecciónEnPizarra(index) {
-            if(typeof DatosMateriaActiva === 'undefined' || !DatosMateriaActiva.temas[index]) return;
-            
-            const tema = DatosMateriaActiva.temas[index];
-            const contenedorPizarra = document.getElementById('pantalla-clase-activa');
-            
-            // Inyección limpia del desarrollo teológico en el contenedor izquierdo
-            contenedorPizarra.innerHTML = `
-                <div class="seccion-header">
-                    <span class="tag-disciplina">${DatosMateriaActiva.materia}</span>
-                    <h2 style="font-size: 1.8rem; color: var(--primary); margin-top:0.3rem;">${tema.titulo}</h2>
-                </div>
-                <div class="card-leccion" style="border-left: 4px solid var(--accent); padding: 1.5rem; background:#fff; margin-top: 1rem;">
-                    <h3 style="border:none; margin-bottom:0.8rem;">Concepto Central:</h3>
-                    <p style="font-size: 1.1rem; line-height: 1.6; color: var(--text);">${tema.concepto}</p>
-                </div>
-                <div class="bloque-inductivo" style="margin-top: 1.5rem; line-height: 1.7; font-size: 1.05rem;">
-                    ${tema.desarrollo}
-                </div>
-            `;
-
-            // Resaltar elemento activo del índice
-            const itemsIndice = document.querySelectorAll('.item-indice-academia');
-            itemsIndice.forEach(it => it.classList.remove('active'));
-            const btnActivo = document.getElementById(`btn-tema-${index}`);
-            if (btnActivo) btnActivo.classList.add('active');
-            
-            // Forzar pestaña de lectura al instante si está en pantalla táctil móvil
-            if (window.innerWidth <= 1024) {
-                cambiarPestañaAcademia('lectura');
-            }
-        }
-
-        // CONTROL RESPONSIVO DE DISPOSITIVOS
-        function ajustarLayoutPorDispositivo(esCargaInicial) {
-            const barraPestanasMesa = document.getElementById('barra-pestanas-global');
-            const barraPestanasAca = document.getElementById('barra-pestanas-academia');
-            const vistaMesa = document.getElementById('vista-mesa');
-            const vistaAcademia = document.getElementById('vista-academia');
-            
-            if (window.innerWidth > 1024) {
-                const panelDerechoMesa = document.getElementById('bloque-paneles-derechos');
-                if (barraPestanasMesa.parentElement !== panelDerechoMesa) {
-                    panelDerechoMesa.insertBefore(barraPestanasMesa, panelDerechoMesa.firstChild);
-                }
-                document.getElementById('bloque-paneles-derechos').classList.remove('oculto');
-                document.getElementById('contenido-tab-biblia').classList.remove('oculto');
-                
-                const panelDerechoAca = document.getElementById('bloque-paneles-academia');
-                if (barraPestanasAca.parentElement !== panelDerechoAca) {
-                    panelDerechoAca.insertBefore(barraPestanasAca, panelDerechoAca.firstChild);
-                }
-                document.getElementById('contenido-aca-desarrollo').classList.remove('oculto');
-
-                cambiarPestañaLateral('estudio');
-                if(esCargaInicial && vistaAcademia.classList.contains('oculto') === false) {
-                    cargarMateriaDinamica('hermeneutica');
-                }
-            } else {
-                if (barraPestanasMesa.parentElement !== vistaMesa) {
-                    vistaMesa.insertBefore(barraPestanasMesa, vistaMesa.firstChild);
-                }
-                if (barraPestanasAca.parentElement !== vistaAcademia) {
-                    vistaAcademia.insertBefore(barraPestanasAca, vistaAcademia.firstChild);
-                }
-                
-                cambiarPestañaLateral(pestanaActivaMovil);
-                cambiarPestañaAcademia(viewAcademiaMovil);
-            }
-        }
-
         function navegarA(destino) {
             document.getElementById('btn-mesa').classList.remove('active');
+            document.getElementById('btn-sermon').classList.remove('active');
             document.getElementById('btn-academia').classList.remove('active');
             document.getElementById('btn-nosotros').classList.remove('active');
+            
             document.getElementById('vista-mesa').classList.add('oculto');
+            document.getElementById('vista-sermon').classList.add('oculto');
             document.getElementById('vista-academia').classList.add('oculto');
             document.getElementById('vista-nosotros').classList.add('oculto');
 
             if(destino === 'mesa') {
                 document.getElementById('btn-mesa').classList.add('active');
                 document.getElementById('vista-mesa').classList.remove('oculto');
-                ajustarLayoutPorDispositivo(true);
+            } else if(destino === 'sermon') {
+                document.getElementById('btn-sermon').classList.add('active');
+                document.getElementById('vista-sermon').classList.remove('oculto');
+                if (typeof prepararModuloConstructor === 'function') prepararModuloConstructor();
             } else if(destino === 'academia') {
                 document.getElementById('btn-academia').classList.add('active');
                 document.getElementById('vista-academia').classList.remove('oculto');
                 cargarMateriaDinamica(materiaActivaGlobal);
-                ajustarLayoutPorDispositivo(true);
             } else if(destino === 'nosotros') {
                 document.getElementById('btn-nosotros').classList.add('active');
                 document.getElementById('vista-nosotros').classList.remove('oculto');
             }
+            ajustarLayoutPorDispositivo(false);
         }
 
-        // CONTROL PESTAÑAS MESA
-        function cambiarPestañaLateral(pestañaSeleccionada) {
-            const tabBiblia = document.getElementById('tab-biblia');
-            const tabEstudio = document.getElementById('tab-estudio');
-            const tabRecursos = document.getElementById('tab-recursos');
-
-            const conBiblia = document.getElementById('contenido-tab-biblia');
-            const conEstudio = document.getElementById('contenido-tab-estudio');
-            const conRecursos = document.getElementById('contenido-tab-recursos');
-            const bloqueDerecho = document.getElementById('bloque-paneles-derechos');
-
-            tabBiblia.classList.remove('active');
-            tabEstudio.classList.remove('active');
-            tabRecursos.classList.remove('active');
-
-            if (window.innerWidth <= 1024) {
-                pestanaActivaMovil = pestañaSeleccionada;
-                if (pestañaSeleccionada === 'biblia') {
-                    tabBiblia.classList.add('active');
-                    conBiblia.classList.remove('oculto');
-                    bloqueDerecho.classList.add('oculto'); 
-                } else {
-                    conBiblia.classList.add('oculto');
-                    bloqueDerecho.classList.remove('oculto'); 
-                    if (pestañaSeleccionada === 'estudio') {
-                        tabEstudio.classList.add('active');
-                        conEstudio.classList.remove('oculto');
-                        conRecursos.classList.add('oculto');
-                    } else if (pestañaSeleccionada === 'recursos') {
-                        tabRecursos.classList.add('active');
-                        conEstudio.classList.add('oculto');
-                        conRecursos.classList.remove('oculto');
-                    }
-                }
-            } else {
-                conBiblia.classList.remove('oculto');
-                bloqueDerecho.classList.remove('oculto');
-                if (pestañaSeleccionada === 'recursos') {
-                    tabRecursos.classList.add('active');
-                    conEstudio.classList.add('oculto');
-                    conRecursos.classList.remove('oculto');
-                } else {
-                    tabEstudio.classList.add('active');
-                    conEstudio.classList.remove('oculto');
-                    conRecursos.classList.add('oculto');
-                }
-            }
-        }
-
-        // CONTROL PESTAÑAS ACADEMIA
-        function cambiarPestañaAcademia(pestañaSeleccionada) {
-            const tabLect = document.getElementById('tab-lectura-aca');
-            const tabHerm = document.getElementById('tab-hermeneutica');
-            const tabExeg = document.getElementById('tab-exegesis');
-            const tabHomi = document.getElementById('tab-homiletica');
+        function ajustarLayoutPorDispositivo(esCargaInicial) {
+            const bMesa = document.getElementById('barra-pestanas-global');
+            const bAca = document.getElementById('barra-pestanas-academia');
+            const bSer = document.getElementById('barra-pestanas-sermon');
             
-            const conDesarrollo = document.getElementById('contenido-aca-desarrollo');
-            const bloqueAcademia = document.getElementById('bloque-paneles-academia');
-
-            tabLect.classList.remove('active');
-            tabHerm.classList.remove('active');
-            tabExeg.classList.remove('active');
-            tabHomi.classList.remove('active');
-
-            if (window.innerWidth <= 1024) {
-                viewAcademiaMovil = pestañaSeleccionada;
+            const vMesa = document.getElementById('vista-mesa');
+            const vAca = document.getElementById('vista-academia');
+            const vSer = document.getElementById('vista-sermon');
+            
+            if (window.innerWidth > 1024) {
+                document.getElementById('bloque-paneles-derechos').insertBefore(bMesa, document.getElementById('bloque-paneles-derechos').firstChild);
+                document.getElementById('bloque-paneles-academia').insertBefore(bAca, document.getElementById('bloque-paneles-academia').firstChild);
+                document.getElementById('bloque-paneles-sermon').insertBefore(bSer, document.getElementById('bloque-paneles-sermon').firstChild);
                 
-                if (pestañaSeleccionada === 'lectura') {
-                    tabLect.classList.add('active');
-                    conDesarrollo.classList.remove('oculto');
-                    bloqueAcademia.classList.add('oculto');
-                } else {
-                    conDesarrollo.classList.add('oculto');
-                    bloqueAcademia.classList.remove('oculto');
-                    
-                    const tabActiva = document.getElementById(`tab-${pestañaSeleccionada}`);
-                    if (tabActiva) tabActiva.classList.add('active');
-                }
+                document.getElementById('contenido-tab-biblia').classList.remove('oculto');
+                document.getElementById('bloque-paneles-derechos').classList.remove('oculto');
+                document.getElementById('contenido-aca-desarrollo').classList.remove('oculto');
+                document.getElementById('contenido-ser-pizarra').classList.remove('oculto');
+                document.getElementById('bloque-paneles-sermon').classList.remove('oculto');
             } else {
-                conDesarrollo.classList.remove('oculto');
-                bloqueAcademia.classList.remove('oculto');
+                if (bMesa.parentElement !== vMesa) vMesa.insertBefore(bMesa, vMesa.firstChild);
+                if (bAca.parentElement !== vAca) vAca.insertBefore(bAca, vAca.firstChild);
+                if (bSer.parentElement !== vSer) vSer.insertBefore(bSer, vSer.firstChild);
                 
-                const tabActiva = document.getElementById(`tab-${pestañaSeleccionada}`);
-                if (tabActiva) tabActiva.classList.add('active');
+                cambiarPestañaLateral(pestanaActivaMovil);
+                cambiarPestañaAcademia(viewAcademiaMovil);
+                cambiarPestañaSermon(viewSermonMovil);
             }
         }
 
-        // CARGA DINÁMICA DE LIBROS MESA
+        function cambiarPestañaLateral(sel) {
+            const tBib = document.getElementById('tab-biblia');
+            const tRec = document.getElementById('tab-recursos');
+            const cBib = document.getElementById('contenido-tab-biblia');
+            const cRec = document.getElementById('contenido-tab-recursos');
+            const bDer = document.getElementById('bloque-paneles-derechos');
+
+            tBib.classList.remove('active'); tRec.classList.remove('active');
+
+            if (window.innerWidth <= 1024) {
+                pestanaActivaMovil = sel;
+                if (sel === 'biblia') {
+                    tBib.classList.add('active'); cBib.classList.remove('oculto'); bDer.classList.add('oculto');
+                } else {
+                    cBib.classList.add('oculto'); bDer.classList.remove('oculto');
+                    tRec.classList.add('active'); cRec.classList.remove('oculto');
+                }
+            } else {
+                cBib.classList.remove('oculto'); bDer.classList.remove('oculto');
+                tRec.classList.add('active'); cRec.classList.remove('oculto');
+            }
+        }
+
+        function cambiarPestañaAcademia(sel) {
+            const tLec = document.getElementById('tab-lectura-aca');
+            const cDes = document.getElementById('contenido-aca-desarrollo');
+            const bAca = document.getElementById('bloque-paneles-academia');
+
+            document.getElementById('tab-hermeneutica').classList.remove('active');
+            document.getElementById('tab-exegesis').classList.remove('active');
+            document.getElementById('tab-homiletica').classList.remove('active');
+            tLec.classList.remove('active');
+
+            if (window.innerWidth <= 1024) {
+                viewAcademiaMovil = sel;
+                if (sel === 'lectura') {
+                    tLec.classList.add('active'); cDes.classList.remove('oculto'); bAca.classList.add('oculto');
+                } else {
+                    cDes.classList.add('oculto'); bAca.classList.remove('oculto');
+                    document.getElementById(`tab-${sel}`).classList.add('active');
+                }
+            } else {
+                cDes.classList.remove('oculto'); bAca.classList.remove('oculto');
+                document.getElementById(`tab-${sel}`).classList.add('active');
+            }
+        }
+
+        function cambiarPestañaSermon(sel) {
+            const tForm = document.getElementById('tab-formulario-ser');
+            const cPiz = document.getElementById('contenido-ser-pizarra');
+            const bSer = document.getElementById('bloque-paneles-sermon');
+
+            if (window.innerWidth <= 1024) {
+                viewSermonMovil = sel;
+                if (sel === 'pizarra') {
+                    cPiz.classList.remove('oculto'); bSer.classList.add('oculto');
+                } else {
+                    cPiz.classList.add('oculto'); bSer.classList.remove('oculto');
+                    tForm.classList.add('active');
+                }
+            } else {
+                cPiz.classList.remove('oculto'); bSer.classList.remove('oculto');
+                tForm.classList.add('active');
+            }
+        }
+
         function cargarLibroDinamico(codigoLibro) {
-            pestanaActivaMovil = 'biblia';
             const scriptViejo = document.getElementById('script-libro-activo');
             if (scriptViejo) scriptViejo.remove();
-
             const nuevoScript = document.createElement('script');
             nuevoScript.id = 'script-libro-activo';
             nuevoScript.src = `libros/${codigoLibro}.js`;
-
             nuevoScript.onload = function() {
                 if (typeof DatosLibroActual !== 'undefined') {
                     renderizarLibroEnPantalla();
-                    cargarNotasGuardadas(codigoLibro);
                 }
             };
             document.body.appendChild(nuevoScript);
@@ -764,95 +632,78 @@
 
         function renderizarLibroEnPantalla() {
             document.getElementById('label-capitulo').classList.remove('oculto');
-            const selectorCapitulo = document.getElementById('selector-capitulo');
-            selectorCapitulo.classList.remove('oculto');
-            selectorCapitulo.innerHTML = "";
-            
+            const selCap = document.getElementById('selector-capitulo');
+            selCap.classList.remove('oculto'); selCap.innerHTML = "";
             DatosLibroActual.capitulos.forEach(cap => {
-                const opcion = document.createElement('option');
-                opcion.value = cap.capitulo;
-                opcion.innerText = `Cap. ${cap.capitulo}`;
-                selectorCapitulo.appendChild(opcion);
+                const op = document.createElement('option');
+                op.value = cap.capitulo; op.innerText = `Cap. ${cap.capitulo}`;
+                selCap.appendChild(op);
             });
-
-            const primerCapitulo = DatosLibroActual.capitulos[0].capitulo;
-            selectorCapitulo.value = primerCapitulo;
-            filtrarCapituloEnPantalla(primerCapitulo);
-            ajustarLayoutPorDispositivo(false);
+            filtrarCapituloEnPantalla(DatosLibroActual.capitulos[0].capitulo);
         }
 
         function filtrarCapituloEnPantalla(numCapitulo) {
             numCapitulo = parseInt(numCapitulo);
             const contenedor = document.getElementById('contenedor-biblia');
-            let htmlBiblia = `<h2>${DatosLibroActual.titulo}</h2><div class="intro-box"><strong>Introducción:</strong> ${DatosLibroActual.introduccion}</div>`;
-
+            let html = `<h2>${DatosLibroActual.titulo}</h2><div class="intro-box"><strong>Introducción:</strong> ${DatosLibroActual.introduccion}</div>`;
             const capObj = DatosLibroActual.capitulos.find(c => c.capitulo === numCapitulo);
             if (capObj) {
                 capObj.versiculos.forEach(v => {
-                    htmlBiblia += `<div class="verse" onclick="mostrarRecursosVersiculo(${capObj.capitulo}, ${v.num})"><span class="v-num">${v.num}</span>${v.texto}</div>`;
+                    html += `<div class="verse" onclick="mostrarRecursosVersiculo(${capObj.capitulo}, ${v.num})"><span class="v-num">${v.num}</span>${v.texto}</div>`;
                 });
             }
-            contenedor.innerHTML = htmlBiblia;
+            contenedor.innerHTML = html;
         }
 
-        function mostrarRecursosVersiculo(numCapitulo, numVersiculo) {
-            const capituloObj = DatosLibroActual.capitulos.find(c => c.capitulo === numCapitulo);
-            const vEncontrado = capituloObj.versiculos.find(v => v.num === numVersiculo);
+        function mostrarRecursosVersiculo(numCap, numVer) {
+            const capObj = DatosLibroActual.capitulos.find(c => c.capitulo === numCap);
+            const vObj = capObj.versiculos.find(v => v.num === numVer);
             cambiarPestañaLateral('recursos');
-
-            const toolBox = document.getElementById('interpretation-tool');
-            let htmlResultado = `
+            document.getElementById('interpretation-tool').innerHTML = `
                 <div class="dict-box">
-                    <p style="font-weight:bold; color:var(--accent); font-size:0.85rem;">Recursos para ${DatosLibroActual.titulo} ${numCapitulo}:${vEncontrado.num}:</p>
-                    <p style="font-size:0.9rem; color:#4a5568; margin-bottom:10px; font-style:italic;">"${vEncontrado.texto}"</p>
-                    <p style="font-size:0.9rem;">${vEncontrado.comentario}</p>
+                    <p style="font-weight:bold; color:var(--accent); font-size:0.85rem;">${DatosLibroActual.titulo} ${numCap}:${vObj.num}</p>
+                    <p style="font-size:0.9rem; color:#4a5568; margin-bottom:10px; font-style:italic;">"${vObj.texto}"</p>
+                    <p style="font-size:0.9rem;">${vObj.comentario}</p>
                 </div>
             `;
-
-            if (vEncontrado.recursos_vocabulario) {
-                vEncontrado.recursos_vocabulario.forEach(item => {
-                    htmlResultado += `
-                        <div class="dict-box" style="background-color:#ffffff; margin-top:0.5rem;">
-                            <p><strong>${item.palabra}</strong> (${item.strong})</p>
-                            <p style="font-size:0.85rem; color:#4a5568;">${item.definicion}</p>
-                        </div>
-                    `;
-                });
-            }
-            toolBox.innerHTML = htmlResultado;
         }
 
-        function guardarEstudio() {
-            const libroActivo = document.getElementById('selector-libro').value;
-            if (!libroActivo) return;
-
-            const notas = {
-                observacion: document.getElementById('note-obs').value,
-                interpretacion: document.getElementById('note-int').value,
-                aplicacionDios: document.getElementById('note-apl-1').value,
-                aplicacionVida: document.getElementById('note-apl-2').value
+        function cargarMateriaDinamica(nombreMateria) {
+            materiaActivaGlobal = nombreMateria;
+            const scriptViejo = document.getElementById('script-materia-activa');
+            if (scriptViejo) scriptViejo.remove();
+            const nuevoScript = document.createElement('script');
+            nuevoScript.id = 'script-materia-activa';
+            nuevoScript.src = `academia/${nombreMateria}.js`;
+            nuevoScript.onload = function() {
+                if (typeof DatosMateriaActiva !== 'undefined') renderizarIndiceMateria();
             };
-            localStorage.setItem(`berea_notas_${libroActivo}`, JSON.stringify(notas));
-            alert("Notas de estudio guardadas de forma local.");
+            document.body.appendChild(nuevoScript);
         }
 
-        function cargarNotasGuardadas(codigoLibro) {
-            document.getElementById('note-obs').value = "";
-            document.getElementById('note-int').value = "";
-            document.getElementById('note-apl-1').value = "";
-            document.getElementById('note-apl-2').value = "";
+        function renderizarIndiceMateria() {
+            cambiarPestañaAcademia(materiaActivaGlobal);
+            document.getElementById('pantalla-clase-activa').innerHTML = `
+                <h2>¿Qué es la ${DatosMateriaActiva.materia}?</h2>
+                <div class="bloque-inductivo" style="margin-top:1rem; border-left:5px solid var(--primary);">${DatosMateriaActiva.descripcion}</div>
+            `;
+            let htmlIndice = `<h3>Temas</h3>`;
+            DatosMateriaActiva.temas.forEach((tema, idx) => {
+                htmlIndice += `<div class="item-indice-academia" onclick="desplegarLecciónEnPizarra(${idx})"><span>📘 ${tema.titulo}</span></div>`;
+            });
+            document.getElementById('contenedor-indice-materia').innerHTML = htmlIndice;
+        }
 
-            const datosGuardados = localStorage.getItem(`berea_notas_${codigoLibro}`);
-            if (datosGuardados) {
-                try {
-                    const notas = JSON.parse(datosGuardados);
-                    if(notas.observacion) document.getElementById('note-obs').value = notas.observacion;
-                    if(notas.interpretacion) document.getElementById('note-int').value = notas.interpretacion;
-                    if(notas.aplicacionDios) document.getElementById('note-apl-1').value = notas.aplicacionDios;
-                    if(notas.aplicacionVida) document.getElementById('note-apl-2').value = notas.aplicacionVida;
-                } catch (e) { console.error(e); }
-            }
+        function desplegarLecciónEnPizarra(idx) {
+            const tema = DatosMateriaActiva.temas[idx];
+            document.getElementById('pantalla-clase-activa').innerHTML = `
+                <h2>${tema.titulo}</h2>
+                <div class="card-leccion" style="margin-top:1rem;"><strong>Concepto Central:</strong><p>${tema.concepto}</p></div>
+                <div class="bloque-inductivo">${tema.desarrollo}</div>
+            `;
+            if (window.innerWidth <= 1024) cambiarPestañaAcademia('lectura');
         }
     </script>
+    <script src="constructor.js"></script>
 </body>
 </html>
